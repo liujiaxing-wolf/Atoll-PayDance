@@ -43,6 +43,7 @@ struct ContentView: View {
     @ObservedObject var musicManager = MusicManager.shared
     @ObservedObject var timerManager = TimerManager.shared
     @ObservedObject var reminderManager = ReminderLiveActivityManager.shared
+    @ObservedObject var eyeBreakManager = EyeBreakManager.shared
     @ObservedObject var batteryModel = BatteryStatusViewModel.shared
     @ObservedObject var statsManager = StatsManager.shared
     @ObservedObject var recordingManager = ScreenRecordingManager.shared
@@ -1006,7 +1007,14 @@ struct ContentView: View {
                           && coordinator.sneakPeek.value < 0
                           && AirPodsListeningMode.fromHUDSymbol(coordinator.sneakPeek.icon) != nil
 
-                      if currentScreenExpansionType == .battery
+                      // An eye break outranks every other closed-notch activity,
+                      // including the battery and inline HUDs: it lasts only the
+                      // rest duration, and it is the countdown that tells the user
+                      // when they may look back at the screen. Covered by anything
+                      // else, the feature does not work at all.
+                      if vm.notchState == .closed && eyeBreakManager.isBreakVisible && !vm.hideOnClosed && !lockScreenManager.isLocked {
+                          EyeBreakLiveActivity()
+                      } else if currentScreenExpansionType == .battery
                             && isBatteryHUDVisibleOnCurrentScreen
                             && vm.notchState == .closed
                             && Defaults[.showPowerStatusNotifications]

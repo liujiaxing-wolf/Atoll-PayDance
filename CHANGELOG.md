@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Lyrics on the side**: Added ability to show lyrics of the current song when calendar is disabled (#741)
 
+- **Eye Break**: An optional 20-20-20 reminder that shows a countdown in the notch every 20 minutes so you look about 20 feet away for 20 seconds, with a Skip button, an optional chime, and a countdown that pauses while you are away from the Mac.
 ### Changed
 - Lock screen live activity timings now follow the selected icons: the fingerprint remains visible through its scan, while the open lock gets its own brief confirmation beat before the island contracts. (#774)
 
