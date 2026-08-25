@@ -164,4 +164,8 @@ COMPREHENSIVE_DOCUMENTATION.md
 implementation_plan.md
 walkthrough.md
 TemporaryAssets/
+
+# Python bytecode from the privacy-configuration tests
+__pycache__/
+*.pyc
 *.profraw

@@ -66,6 +66,7 @@ private enum SettingsTab: String, CaseIterable, Identifiable {
     case shortcuts
     case notes
     case terminal
+    case teleprompter
     case about
 
     var id: String { rawValue }
@@ -76,7 +77,7 @@ private enum SettingsTab: String, CaseIterable, Identifiable {
         case .general, .appearance:                                          return .core
         case .media, .liveActivities, .lockScreen, .devices:                 return .mediaAndDisplay
         case .hudAndOSD, .battery:                                           return .system
-        case .timer, .calendar, .notes:                                      return .productivity
+        case .timer, .calendar, .notes, .teleprompter:                       return .productivity
         case .clipboard, .screenAssistant, .colorPicker, .shelf,
              .downloads, .shortcuts:                                         return .utilities
         case .stats, .terminal:                                              return .developer
@@ -107,6 +108,7 @@ private enum SettingsTab: String, CaseIterable, Identifiable {
         case .shortcuts: return String(localized: "Shortcuts")
         case .notes: return String(localized: "Notes")
         case .terminal: return String(localized: "Terminal")
+        case .teleprompter: return String(localized: "Prompter")
         case .about: return String(localized: "About")
         }
     }
@@ -133,6 +135,7 @@ private enum SettingsTab: String, CaseIterable, Identifiable {
         case .shortcuts: return "keyboard"
         case .notes: return "note.text"
         case .terminal: return "apple.terminal"
+        case .teleprompter: return "text.viewfinder"
         case .about: return "info.circle"
         }
     }
@@ -159,6 +162,7 @@ private enum SettingsTab: String, CaseIterable, Identifiable {
         case .shortcuts: return .orange
         case .notes: return Color(red: 0.979, green: 0.716, blue: 0.153, opacity: 1.000)
         case .terminal: return Color(red: 0.2, green: 0.8, blue: 0.4)
+        case .teleprompter: return Color(red: 0.95, green: 0.55, blue: 0.25)
         case .about: return .secondary
         }
     }
@@ -497,6 +501,7 @@ struct SettingsView: View {
             .timer,
             .calendar,
             .notes,
+            .teleprompter,
             // Utilities
             .clipboard,
             .screenAssistant,
@@ -946,7 +951,7 @@ struct SettingsView: View {
 
     private func isTabVisible(_ tab: SettingsTab) -> Bool {
         switch tab {
-        case .timer, .stats, .clipboard, .screenAssistant, .colorPicker, .shelf, .notes, .terminal:
+        case .timer, .stats, .clipboard, .screenAssistant, .colorPicker, .shelf, .notes, .terminal, .teleprompter:
             return !enableMinimalisticUI
         default:
             return true
@@ -1035,6 +1040,10 @@ struct SettingsView: View {
         case .terminal:
             SettingsForm(tab: .terminal) {
                 TerminalSettings()
+            }
+        case .teleprompter:
+            SettingsForm(tab: .teleprompter) {
+                TeleprompterSettings(highlightID: { SettingsTab.teleprompter.highlightID(for: $0) })
             }
         case .about:
             if let controller = updaterController {
@@ -6994,6 +7003,32 @@ struct Shortcuts: View {
                     Text("Terminal")
                 } footer: {
                     Text("Opens the terminal tab in the notch. Default is Ctrl+`. Only works when terminal feature is enabled.")
+                        .multilineTextAlignment(.trailing)
+                        .foregroundStyle(.secondary)
+                        .font(.caption)
+                }
+
+                Section {
+                    VStack(alignment: .leading) {
+                        KeyboardShortcuts.Recorder("Show the Prompter:", name: .teleprompterToggle)
+                            .disabled(!enableShortcuts || !Defaults[.enableTeleprompterFeature])
+                        KeyboardShortcuts.Recorder("Start or pause a take:", name: .teleprompterPlayPause)
+                            .disabled(!enableShortcuts || !Defaults[.enableTeleprompterFeature])
+                        KeyboardShortcuts.Recorder("Next section:", name: .teleprompterNextSection)
+                            .disabled(!enableShortcuts || !Defaults[.enableTeleprompterFeature])
+                        KeyboardShortcuts.Recorder("Previous section:", name: .teleprompterPreviousSection)
+                            .disabled(!enableShortcuts || !Defaults[.enableTeleprompterFeature])
+                        if !Defaults[.enableTeleprompterFeature] {
+                            Text("Teleprompter feature is disabled")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .padding(.top, 2)
+                        }
+                    }
+                } header: {
+                    Text("Teleprompter")
+                } footer: {
+                    Text("The section keys come unassigned on purpose: anything comfortable to press mid-sentence is already doing something in the app you are presenting from.")
                         .multilineTextAlignment(.trailing)
                         .foregroundStyle(.secondary)
                         .font(.caption)

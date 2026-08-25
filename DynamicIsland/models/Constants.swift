@@ -1239,6 +1239,34 @@ extension Defaults.Keys {
     static let terminalCursorColor = Key<Color>("terminalCursorColor", default: Color(.selectedControlColor))
     static let terminalStickyMode = Key<Bool>("terminalStickyMode", default: false)
     
+    // MARK: Teleprompter
+    static let enableTeleprompterFeature = Key<Bool>("enableTeleprompterFeature", default: false)
+    /// Defaults to the floating window: it is the only surface big enough to read
+    /// from, and it costs no notch width.
+    static let teleprompterDisplayMode = Key<TeleprompterDisplayMode>("teleprompterDisplayMode", default: .panel)
+    static let teleprompterScrollMode = Key<TeleprompterScrollMode>("teleprompterScrollMode", default: .manual)
+    /// Being invisible to screen sharing is the point of a prompter, so this is on.
+    static let teleprompterHideFromScreenCapture = Key<Bool>("teleprompterHideFromScreenCapture", default: true)
+    static let teleprompterFontSize = Key<Double>("teleprompterFontSize", default: 28)
+    static let teleprompterFontChoice = Key<TeleprompterFontChoice>("teleprompterFontChoice", default: .system)
+    static let teleprompterCustomFontFamily = Key<String>("teleprompterCustomFontFamily", default: "")
+    static let teleprompterWordsPerMinute = Key<Double>("teleprompterWordsPerMinute", default: 140)
+    static let teleprompterOpacity = Key<Double>("teleprompterOpacity", default: 0.9)
+    static let teleprompterMirrored = Key<Bool>("teleprompterMirrored", default: false)
+    static let teleprompterMaxHeightFraction = Key<Double>("teleprompterMaxHeightFraction", default: 0.45)
+    /// Locale for reading and, later, for speech recognition. Empty follows the system.
+    static let teleprompterLocaleIdentifier = Key<String>("teleprompterLocaleIdentifier", default: "")
+    /// Whether each script keeps its own size, typeface, pace and mirroring.
+    /// On, because a talk and a demo script rarely want the same setup.
+    static let teleprompterRememberPerScript = Key<Bool>("teleprompterRememberPerScript", default: true)
+    /// Roll on to the next script in the running order when one is finished.
+    static let teleprompterPlaylistEnabled = Key<Bool>("teleprompterPlaylistEnabled", default: false)
+    /// Return to the first script after the last, for a looping display reel.
+    static let teleprompterPlaylistLoops = Key<Bool>("teleprompterPlaylistLoops", default: false)
+    /// Move with the slide while a Keynote slideshow is playing. Off until asked
+    /// for: it costs an Apple event a second and an automation permission.
+    static let teleprompterFollowKeynote = Key<Bool>("teleprompterFollowKeynote", default: false)
+
     // MARK: Timer Feature
     static let enableTimerFeature = Key<Bool>("enableTimerFeature", default: true)
     static let timerDisplayMode = Key<TimerDisplayMode>("timerDisplayMode", default: .tab)
