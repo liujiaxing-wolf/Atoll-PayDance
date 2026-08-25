@@ -55,6 +55,9 @@ struct ContentView: View {
     @ObservedObject var localSendService = LocalSendService.shared
     @State private var downloadManager = DownloadManager.shared
     @ObservedObject var shelfState = ShelfStateViewModel.shared
+    @ObservedObject var agentTowerManager = AgentTowerManager.shared
+    /// Reference-counted keep-open token held while an agent approval is pending.
+    private static let agentTowerSuppressionToken = UUID()
     
     @Default(.enableStatsFeature) var enableStatsFeature
     @Default(.showCpuGraph) var showCpuGraph
@@ -63,6 +66,9 @@ struct ContentView: View {
     @Default(.showNetworkGraph) var showNetworkGraph
     @Default(.showDiskGraph) var showDiskGraph
     @Default(.enableReminderLiveActivity) var enableReminderLiveActivity
+    /// Observed rather than read inline so changing it in Settings redraws the
+    /// closed notch straight away.
+    @Default(.agentTowerRunningEmoji) var agentTowerRunningEmoji
     @Default(.enableTimerFeature) var enableTimerFeature
     @Default(.timerDisplayMode) var timerDisplayMode
     @Default(.enableHorizontalMusicGestures) var enableHorizontalMusicGestures
@@ -190,6 +196,17 @@ struct ContentView: View {
             let maxFraction = Defaults[.terminalMaxHeightFraction]
             let terminalHeight = min(screenHeight * maxFraction, max(300, screenHeight * maxFraction))
             return CGSize(width: baseSize.width, height: terminalHeight)
+        }
+
+        if coordinator.currentView == .agentTower {
+            // Same screen-fraction approach as the terminal tab: a grid of session
+            // cards needs more room than the 200pt default. Resolved against the
+            // notch's own screen, not always the main one, so a secondary display
+            // with a different visible height does not clip the session grid.
+            let targetScreen = NSScreen.screens.first { $0.localizedName == currentScreenName }
+            let screenHeight = (targetScreen ?? NSScreen.main)?.visibleFrame.height ?? 800
+            let fraction = Defaults[.agentTowerMaxHeightFraction]
+            return CGSize(width: baseSize.width, height: max(280, screenHeight * fraction))
         }
 
         if coordinator.currentView == .extensionExperience {
@@ -846,6 +863,12 @@ struct ContentView: View {
             .onChange(of: terminalStickyMode) { _, _ in
                 syncStickyTerminalOutsideClickMonitor()
             }
+            // An agent is blocked waiting for an answer, so the notch must not
+            // close out from under the buttons that give it one. Reference-counted
+            // token rather than another flag in `shouldPreventAutoClose()`.
+            .onChange(of: agentTowerManager.hasPendingApproval) { _, isPending in
+                vm.setAutoCloseSuppression(isPending, token: Self.agentTowerSuppressionToken)
+            }
             .onChange(of: vm.notchState) { _, state in
                 if state == .open {
                     suppressMusicControlWindowUpdates()
@@ -995,6 +1018,8 @@ struct ContentView: View {
                               return false
                           case .extensionPayload:
                               return false
+                          case .agentTower:
+                              return currentScreenExpansionType == .agentTower
                           case .shelf:
                               return false
                           }
@@ -1032,6 +1057,16 @@ struct ContentView: View {
                       } else if vm.notchState == .closed && capsLockManager.isCapsLockActive && Defaults[.enableCapsLockIndicator] && !vm.hideOnClosed && !lockScreenManager.isLocked {
                           InlineHUD(type: .constant(.capsLock), value: .constant(1.0), icon: .constant(""), hoverAnimation: $isHovering, gestureProgress: $gestureProgress)
                               .transition(AnyTransition.move(edge: .trailing).combined(with: .opacity))
+                      // A pending approval outranks music: an agent is blocked
+                      // waiting on it, and an approval the user never sees is the
+                      // one failure this feature cannot afford. Only a *waiting*
+                      // request gets this branch — a merely-running agent rides
+                      // the music secondary slot instead, so music is not
+                      // suppressed for the length of a long session.
+                      } else if vm.notchState == .closed && agentTowerManager.hasPendingApproval && Defaults[.agentTowerShowLiveActivity] && !vm.hideOnClosed && !lockScreenManager.isLocked {
+                          AgentTowerLiveActivity()
+                              .id("agent-tower-live-activity")
+                              .transition(closedLiveActivitySwapTransition)
                       } else if canShowMusicDuringExpansion && musicPairingEligible {
                           MusicLiveActivity(secondary: musicSecondary)
                               .id("closed-music-live-activity")
@@ -1189,6 +1224,8 @@ struct ContentView: View {
                                 NotchClipboardView()
                             case .terminal:
                                 NotchTerminalView()
+                            case .agentTower:
+                                NotchAgentTowerView()
                             case .extensionExperience:
                                 if let payload = currentExtensionTabPayload() {
                                     ExtensionNotchExperienceTabView(payload: payload)
@@ -1428,6 +1465,13 @@ struct ContentView: View {
             return .extensionPayload(extensionPayload)
         }
 
+        // A running agent, shown alongside music. A waiting one is handled by the
+        // standalone branch, so it is deliberately excluded here.
+        if Defaults[.enableAgentTower] && Defaults[.agentTowerShowLiveActivity]
+            && !agentTowerManager.hasPendingApproval && agentTowerManager.runningCount > 0 {
+            return .agentTower(running: agentTowerManager.runningCount)
+        }
+
         // Shelf: show file count as lowest-priority secondary
         if !shelfState.isEmpty && !lockScreenManager.isLocked && !enableMinimalisticUI {
             return .shelf(count: shelfState.items.count)
@@ -1453,6 +1497,8 @@ struct ContentView: View {
         case .extensionPayload(let payload):
             let maxWidth = baseWidth + centerBaseWidth * 0.6
             return ExtensionLayoutMetrics.trailingWidth(for: payload, baseWidth: baseWidth, maxWidth: maxWidth)
+        case .agentTower:
+            return baseWidth
         case .shelf:
             return baseWidth
         }
@@ -1557,6 +1603,20 @@ struct ContentView: View {
                         accent: payload.descriptor.accentColor.swiftUIColor,
                         size: badgeSize
                     )
+                case .agentTower:
+                    // An emoji reads at this size where a thin symbol does not,
+                    // and it is the one thing on the closed notch someone might
+                    // want to make their own.
+                    if agentTowerRunningEmoji.isEmpty {
+                        Image(systemName: "sparkles")
+                            .font(.system(size: badgeSize * 0.50, weight: .semibold))
+                            .foregroundStyle(.white)
+                    } else {
+                        Text(agentTowerRunningEmoji)
+                            .font(.system(size: badgeSize * 0.58))
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1)
+                    }
                 case .shelf:
                     Image(systemName: "tray.and.arrow.down.fill")
                         .font(.system(size: badgeSize * 0.50, weight: .semibold))
@@ -1619,6 +1679,11 @@ struct ContentView: View {
             spectrumView(forceSpectrum: true, trailingInset: 6)
         case .extensionPayload(let payload):
             ExtensionMusicWingView(payload: payload, notchHeight: notchHeight, trailingWidth: trailingWidth)
+        case .agentTower(let running):
+            Text("\(running)")
+                .font(.system(.callout, design: .rounded, weight: .bold))
+                .foregroundStyle(.white)
+                .contentTransition(.numericText(countsDown: false))
         case .shelf(let count):
             // File count badge: bold white number, like a minimal pill
             Text("\(count)")
@@ -2869,6 +2934,9 @@ private enum MusicSecondaryLiveActivity: Equatable {
     case focus(FocusModeType)
     case capsLock(showLabel: Bool)
     case extensionPayload(ExtensionLiveActivityPayload)
+    /// A low-urgency "N agents running" badge. A *waiting* agent does not come
+    /// through here — it gets its own branch so it is visible without music.
+    case agentTower(running: Int)
     case shelf(count: Int)
 
     var id: String {
@@ -2885,6 +2953,8 @@ private enum MusicSecondaryLiveActivity: Equatable {
             return showLabel ? "caps-lock-label" : "caps-lock-icon"
         case .extensionPayload(let payload):
             return "extension-\(payload.id)"
+        case .agentTower(let running):
+            return "agent-tower-\(running)"
         case .shelf(let count):
             return "shelf-\(count)"
         }

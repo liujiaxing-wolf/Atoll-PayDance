@@ -1238,7 +1238,32 @@ extension Defaults.Keys {
     static let terminalForegroundColor = Key<Color>("terminalForegroundColor", default: .white)
     static let terminalCursorColor = Key<Color>("terminalCursorColor", default: Color(.selectedControlColor))
     static let terminalStickyMode = Key<Bool>("terminalStickyMode", default: false)
-    
+
+    // MARK: Agent Tower
+    /// Off by default: the feature edits the user's agent config files, so it has
+    /// to be an explicit opt-in.
+    static let enableAgentTower = Key<Bool>("enableAgentTower", default: false)
+    /// Separate from `enableAgentTower` so monitoring can run without Atoll ever
+    /// being able to answer a permission prompt.
+    static let agentTowerApprovalsEnabled = Key<Bool>("agentTowerApprovalsEnabled", default: false)
+    static let agentTowerEnabledKinds = Key<[AgentKind]>("agentTowerEnabledKinds", default: [.claudeCode])
+    static let agentTowerMaxHeightFraction = Key<Double>("agentTowerMaxHeightFraction", default: 0.4)
+    static let agentTowerFlagDangerousCommands = Key<Bool>("agentTowerFlagDangerousCommands", default: true)
+    static let agentTowerShowLiveActivity = Key<Bool>("agentTowerShowLiveActivity", default: true)
+    /// The badge shown beside your track while agents are running. Empty falls
+    /// back to the symbol, so clearing the field is a way of saying "the plain
+    /// one" rather than "nothing".
+    static let agentTowerRunningEmoji = Key<String>("agentTowerRunningEmoji", default: "🤖")
+    static let agentTowerEscalationEnabled = Key<Bool>("agentTowerEscalationEnabled", default: true)
+    static let agentTowerPlaySound = Key<Bool>("agentTowerPlaySound", default: false)
+    /// Silences reminders without hiding the request itself.
+    static let agentTowerPrivacyMode = Key<Bool>("agentTowerPrivacyMode", default: false)
+    /// Off by default: a remembered approval that outlives the session is the one
+    /// part of this feature that can approve something without a human present.
+    static let agentTowerAllowAlwaysAllowRules = Key<Bool>("agentTowerAllowAlwaysAllowRules", default: false)
+    /// Sessions quiet for longer than this are dropped on the next launch.
+    static let agentTowerSessionPruneHours = Key<Int>("agentTowerSessionPruneHours", default: 24)
+
     // MARK: Timer Feature
     static let enableTimerFeature = Key<Bool>("enableTimerFeature", default: true)
     static let timerDisplayMode = Key<TimerDisplayMode>("timerDisplayMode", default: .tab)

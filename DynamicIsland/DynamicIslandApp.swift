@@ -299,7 +299,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NotificationCenter.default.removeObserver(self)
         extensionXPCServiceHost.stop()
         extensionRPCServer.stop()
-        
+        // Removes the heartbeat, which releases any hook that happens to be
+        // waiting instead of leaving it to time out.
+        AgentTowerManager.shared.shutdown()
+
         // Stop AudioTap capture
         AudioTap.shared.stopCapture()
 
@@ -560,6 +563,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             baseSize.height = min(screenHeight * maxFraction, max(300, screenHeight * maxFraction))
         } else if coordinator.currentView == .llmUsage {
             baseSize.height = max(baseSize.height, llmUsageOpenNotchHeight)
+        } else if coordinator.currentView == .agentTower {
+            // Must stay in step with the same branch in `ContentView`, or the
+            // window and its content disagree about how tall the tab is.
+            // Resolved against this window's own screen, not always the main
+            // one, so a secondary display does not clip the session grid.
+            let targetScreen = NSScreen.screens.first { $0.localizedName == vm.screen }
+            let screenHeight = (targetScreen ?? NSScreen.main)?.visibleFrame.height ?? 800
+            baseSize.height = max(280, screenHeight * Defaults[.agentTowerMaxHeightFraction])
         }
         
         baseSize = inlineLyricsAdjustedNotchSize(
@@ -691,7 +702,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         LockScreenManager.shared.configure(viewModel: vm)
         extensionXPCServiceHost.start()
         extensionRPCServer.start()
-        
+        // Started here rather than from the manager's `init()`: wiring Defaults
+        // publishers inside a shared manager's initialiser deadlocks launch.
+        AgentTowerManager.shared.start()
+
         // Migrate legacy progress bar settings
         Defaults.Keys.migrateProgressBarStyle()
         Defaults.Keys.migrateMusicAuxControls()
@@ -822,6 +836,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }.store(in: &cancellables)
 
         Defaults.publisher(.terminalMaxHeightFraction, options: []).sink { [weak self] _ in
+            self?.debouncedUpdateWindowSize()
+        }.store(in: &cancellables)
+
+        Defaults.publisher(.agentTowerMaxHeightFraction, options: []).sink { [weak self] _ in
             self?.debouncedUpdateWindowSize()
         }.store(in: &cancellables)
 

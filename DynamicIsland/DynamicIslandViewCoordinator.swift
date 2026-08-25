@@ -36,6 +36,7 @@ enum SneakContentType: Equatable {
     case privacy
     case lockScreen
     case capsLock
+    case agentTower
     case extensionLiveActivity(bundleID: String, activityID: String)
 }
 
@@ -56,7 +57,8 @@ extension SneakContentType {
              (.bluetoothAudio, .bluetoothAudio),
              (.privacy, .privacy),
              (.lockScreen, .lockScreen),
-             (.capsLock, .capsLock):
+             (.capsLock, .capsLock),
+             (.agentTower, .agentTower):
             return true
         case let (.extensionLiveActivity(lb, la), .extensionLiveActivity(rb, ra)):
             return lb == rb && la == ra
@@ -105,7 +107,7 @@ class DynamicIslandViewCoordinator: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private var hoverOpenSuppressedUntil: Date = .distantPast
     
-    private static let tabOrder: [NotchViews] = [.home, .shelf, .timer, .stats, .llmUsage, .colorPicker, .notes, .clipboard, .terminal, .extensionExperience]
+    private static let tabOrder: [NotchViews] = [.home, .shelf, .timer, .stats, .llmUsage, .colorPicker, .notes, .clipboard, .terminal, .agentTower, .extensionExperience]
     
     /// Direction of the most recent tab switch (true = forward/right, false = backward/left)
     @Published var tabSwitchForward: Bool = true
@@ -349,7 +351,9 @@ class DynamicIslandViewCoordinator: ObservableObject {
             resolvedDuration = duration
         }
         sneakPeekDuration = resolvedDuration
-        let bypassedTypes: [SneakContentType] = [.music, .timer, .reminder, .bluetoothAudio]
+        // An approval reminder must reach the user whether or not they have the
+        // system HUD replacement switched on: an agent is blocked waiting on it.
+        let bypassedTypes: [SneakContentType] = [.music, .timer, .reminder, .bluetoothAudio, .agentTower]
         
         // Check if it's an extension type
         let isExtensionType: Bool

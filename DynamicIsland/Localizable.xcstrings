@@ -579,6 +579,22 @@
         }
       }
     },
+    "\"Monitoring only\" means the agent's config shape is confirmed but Atoll has not observed it acting on an approval — approvals may simply do nothing there. \"Experimental\" means the agent is not installed here, so nothing has been confirmed. In both cases Atoll's hook fails silently, so your agent's own prompt appears as usual rather than anything interfering." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"Monitoring only\" means the agent's config shape is confirmed but Atoll has not observed it acting on an approval — approvals may simply do nothing there. \"Experimental\" means the agent is not installed here, so nothing has been confirmed. In both cases Atoll's hook fails silently, so your agent's own prompt appears as usual rather than anything interfering."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"Yalnızca izleme\", ajanın yapılandırma biçiminin doğrulandığı ama Atoll'ün onu bir onaya göre davranırken gözlemlemediği anlamına gelir — orada onaylar hiçbir şey yapmıyor olabilir. \"Deneysel\" ise ajanın burada kurulu olmadığını, yani hiçbir şeyin doğrulanmadığını gösterir. Her iki durumda da Atoll'ün hook'u sessizce geri çekilir; araya bir şey girmez, ajanın kendi istemi her zamanki gibi görünür."
+          }
+        }
+      }
+    },
     "(%@)" : {
       "localizations" : {
         "ar" : {
@@ -693,6 +709,22 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "(%@)"
+          }
+        }
+      }
+    },
+    "(window size estimated)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(window size estimated)"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(pencere boyutu tahmini)"
           }
         }
       }
@@ -1140,6 +1172,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 通道"
+          }
+        }
+      }
+    },
+    "%@ is not valid JSON, so Atoll left it alone. Fix or move the file, then try again." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is not valid JSON, so Atoll left it alone. Fix or move the file, then try again."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ geçerli bir JSON değil, bu yüzden Atoll ona dokunmadı. Dosyayı düzeltin ya da taşıyın, sonra yeniden deneyin."
+          }
+        }
+      }
+    },
+    "%@ does not appear to be installed." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ does not appear to be installed."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ kurulu görünmüyor."
           }
         }
       }
@@ -3938,6 +4002,22 @@
       },
       "shouldTranslate" : false
     },
+    "1 agent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 agent"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 ajan"
+          }
+        }
+      }
+    },
     "1 hour" : {
       "localizations" : {
         "ko" : {
@@ -4255,6 +4335,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "2. 開發者工具 -> Application/Storage -> Cookies -> https://open.spotify.com"
+          }
+        }
+      }
+    },
+    "3 days" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 days"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 gün"
           }
         }
       }
@@ -4643,6 +4739,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "6"
+          }
+        }
+      }
+    },
+    "6 hours" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6 hours"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6 saat"
           }
         }
       }
@@ -5128,6 +5240,22 @@
         }
       }
     },
+    "24 hours" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24 hours"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24 saat"
+          }
+        }
+      }
+    },
     "30" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5384,6 +5512,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atoll 有新版本可用！"
+          }
+        }
+      }
+    },
+    "A waiting approval takes the notch over music. A merely-running agent shows as a small count beside your track instead." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A waiting approval takes the notch over music. A merely-running agent shows as a small count beside your track instead."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekleyen bir onay, çentikte müziğin önüne geçer. Yalnızca çalışan bir ajan ise parçanızın yanında küçük bir sayaç olarak görünür."
+          }
+        }
+      }
+    },
+    "A week" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A week"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir hafta"
           }
         }
       }
@@ -7316,6 +7476,22 @@
         }
       }
     },
+    "Adds a blocking hook so you can approve or deny a command without switching to the terminal." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adds a blocking hook so you can approve or deny a command without switching to the terminal."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir komutu terminale geçmeden onaylayabilmeniz ya da reddedebilmeniz için bloklayan bir hook ekler."
+          }
+        }
+      }
+    },
     "Adds a Guake-style dropdown terminal tab. The terminal session persists across notch open/close cycles." : {
       "localizations" : {
         "ko" : {
@@ -7574,6 +7750,96 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "調整鎖定畫面計時器小工具寬度，不影響按鈕大小。"
+          }
+        }
+      }
+    },
+    "agents" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "agents"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ajan"
+          }
+        }
+      }
+    },
+    "Agents to watch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agents to watch"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzlenecek ajanlar"
+          }
+        }
+      }
+    },
+    "Agents marked experimental have not been verified against a real installation. Atoll's hook is written to fail silently, so an unrecognised agent simply does nothing rather than interfering." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agents marked experimental have not been verified against a real installation. Atoll's hook is written to fail silently, so an unrecognised agent simply does nothing rather than interfering."
+          }
+        }
+      }
+    },
+    "Agents" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agents"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajanlar"
+          }
+        }
+      }
+    },
+    "Agent Tower is off" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agent Tower is off"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajan Kulesi kapalı"
+          }
+        }
+      }
+    },
+    "Agent Tower" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agent Tower"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajan Kulesi"
           }
         }
       }
@@ -9133,6 +9399,38 @@
       },
       "shouldTranslate" : false
     },
+    "Always allowed in Atoll" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always allowed in Atoll"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atoll'de her zaman izin verildi"
+          }
+        }
+      }
+    },
+    "Always" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her zaman"
+          }
+        }
+      }
+    },
     "Always hide in fullscreen" : {
       "localizations" : {
         "ar" : {
@@ -9519,6 +9817,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "動畫名稱"
+          }
+        }
+      }
+    },
+    "Answer permission prompts from the notch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Answer permission prompts from the notch"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzin isteklerini çentikten yanıtla"
           }
         }
       }
@@ -10158,6 +10472,70 @@
         }
       }
     },
+    "Approved in Atoll for this session" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Approved in Atoll for this session"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atoll'de bu oturum için onaylandı"
+          }
+        }
+      }
+    },
+    "Approved in Atoll" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Approved in Atoll"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atoll'de onaylandı"
+          }
+        }
+      }
+    },
+    "Approve" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Approve"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onayla"
+          }
+        }
+      }
+    },
+    "Approvals" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Approvals"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onaylar"
+          }
+        }
+      }
+    },
     "Apps using AtollExtensionKit will appear here once they request permission" : {
       "comment" : "A description below the placeholder text in the \"Search extensions...\" text field, explaining that apps using AtollExtensionKit will be listed here once they grant permission to use the app.",
       "isCommentAutoGenerated" : true,
@@ -10611,6 +10989,38 @@
         }
       }
     },
+    "Atoll could not verify its changes to %@ and restored the backup." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atoll could not verify its changes to %@ and restored the backup."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atoll, %@ dosyasında yaptığı değişiklikleri doğrulayamadı ve yedeği geri yükledi."
+          }
+        }
+      }
+    },
+    "Atoll could not prepare its hook folder. Check that ~/.atoll is owned by you and not shared." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atoll could not prepare its hook folder. Check that ~/.atoll is owned by you and not shared."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atoll hook klasörünü hazırlayamadı. ~/.atoll klasörünün size ait olduğundan ve paylaşılmadığından emin olun."
+          }
+        }
+      }
+    },
     "Atoll includes a mirror feature that lets you quickly check your appearance using your camera, right from the notch. Camera access is required only to show this live preview. You can turn the mirror feature on or off at any time in the app." : {
       "localizations" : {
         "ko" : {
@@ -10659,6 +11069,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atoll 包含鏡像功能，讓你可以直接從瀏海處使用相機快速檢查外觀。相機存取僅用於顯示即時預覽。你可以隨時在 App 中開啟或關閉鏡像功能。"
+          }
+        }
+      }
+    },
+    "Atoll keeps a small folder at ~/.atoll/agent-hooks. Deleting it, or setting ATOLL_HOOKS_DISABLED=1 in your shell, switches every hook off without touching any agent configuration." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atoll keeps a small folder at ~/.atoll/agent-hooks. Deleting it, or setting ATOLL_HOOKS_DISABLED=1 in your shell, switches every hook off without touching any agent configuration."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atoll, ~/.atoll/agent-hooks konumunda küçük bir klasör tutar. Bu klasörü silmek ya da kabuğunuzda ATOLL_HOOKS_DISABLED=1 tanımlamak, hiçbir ajan yapılandırmasına dokunmadan tüm hook'ları kapatır."
           }
         }
       }
@@ -11691,6 +12117,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "背光"
+          }
+        }
+      }
+    },
+    "Badge for running agents" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Badge for running agents"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çalışan ajanların rozeti"
           }
         }
       }
@@ -15074,6 +15516,38 @@
         }
       }
     },
+    "Changes permissions across a whole directory tree" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changes permissions across a whole directory tree"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bütün bir dizin ağacındaki izinleri değiştirir"
+          }
+        }
+      }
+    },
+    "Changes ownership of a whole directory tree" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changes ownership of a whole directory tree"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bütün bir dizin ağacının sahipliğini değiştirir"
+          }
+        }
+      }
+    },
     "Charging" : {
       "comment" : "Charging fallback label when no estimate is available",
       "localizations" : {
@@ -17403,6 +17877,22 @@
         }
       }
     },
+    "Clear finished" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear finished"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitenleri temizle"
+          }
+        }
+      }
+    },
     "Clear History" : {
       "comment" : "The text on a button that clears the clipboard history.",
       "isCommentAutoGenerated" : true,
@@ -17737,6 +18227,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "點按檢視詳情"
+          }
+        }
+      }
+    },
+    "Click to bring this agent's terminal forward" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click to bring this agent's terminal forward"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ajanın terminalini öne getirmek için tıklayın"
           }
         }
       }
@@ -20121,6 +20627,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "直接連線 Spotify App。"
+          }
+        }
+      }
+    },
+    "Context window" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Context window"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bağlam penceresi"
+          }
+        }
+      }
+    },
+    "Context used" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Context used"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanılan bağlam"
           }
         }
       }
@@ -23746,6 +24284,38 @@
         }
       }
     },
+    "Decodes hidden text and runs it as a script" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Decodes hidden text and runs it as a script"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizlenmiş metni çözüp script olarak çalıştırır"
+          }
+        }
+      }
+    },
+    "Decodes an encoded payload before running it" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Decodes an encoded payload before running it"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kodlanmış bir yükü çalıştırmadan önce çözer"
+          }
+        }
+      }
+    },
     "Deep Work" : {
       "comment" : "Name of a default timer preset for deep work.",
       "isCommentAutoGenerated" : true,
@@ -24313,6 +24883,166 @@
     "Delete this item" : {
 
     },
+    "Deletes untracked files, including ignored ones" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletes untracked files, including ignored ones"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzlenmeyen dosyaları, yok sayılanlar dâhil siler"
+          }
+        }
+      }
+    },
+    "Deletes something on GitHub" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletes something on GitHub"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub'da bir şeyi siler"
+          }
+        }
+      }
+    },
+    "Deletes matching files across the whole system" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletes matching files across the whole system"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eşleşen dosyaları tüm sistemde siler"
+          }
+        }
+      }
+    },
+    "Deletes every file matching a pattern" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletes every file matching a pattern"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir kalıba uyan her dosyayı siler"
+          }
+        }
+      }
+    },
+    "Deletes cluster resources" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletes cluster resources"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Küme kaynaklarını siler"
+          }
+        }
+      }
+    },
+    "Deletes cloud storage contents" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletes cloud storage contents"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bulut depolama içeriğini siler"
+          }
+        }
+      }
+    },
+    "Deletes an app's saved preferences" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletes an app's saved preferences"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir uygulamanın kayıtlı tercihlerini siler"
+          }
+        }
+      }
+    },
+    "Deletes a remote branch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletes a remote branch"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uzak bir dalı siler"
+          }
+        }
+      }
+    },
+    "Deletes a branch without merge checks" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletes a branch without merge checks"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir dalı birleştirme denetimi olmadan siler"
+          }
+        }
+      }
+    },
+    "Deletes Keychain items" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletes Keychain items"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anahtar Zinciri ögelerini siler"
+          }
+        }
+      }
+    },
     "Denied" : {
       "localizations" : {
         "ko" : {
@@ -24355,6 +25085,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已拒絕"
+          }
+        }
+      }
+    },
+    "Denied in Atoll" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denied in Atoll"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atoll'de reddedildi"
           }
         }
       }
@@ -24463,6 +25209,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "拒絕"
+          }
+        }
+      }
+    },
+    "Deny with a note explaining what to do instead" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deny with a note explaining what to do instead"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunun yerine ne yapılacağını anlatan bir notla reddet"
+          }
+        }
+      }
+    },
+    "Deny with a note" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deny with a note"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notla reddet"
           }
         }
       }
@@ -24676,6 +25454,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "設計師"
+          }
+        }
+      }
+    },
+    "Destroys provisioned infrastructure" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destroys provisioned infrastructure"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurulmuş altyapıyı yok eder"
           }
         }
       }
@@ -25471,6 +26265,54 @@
         }
       }
     },
+    "Discards changes in tracked files" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discards changes in tracked files"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzlenen dosyalardaki değişiklikleri atar"
+          }
+        }
+      }
+    },
+    "Discards all uncommitted changes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discards all uncommitted changes"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit edilmemiş tüm değişiklikleri atar"
+          }
+        }
+      }
+    },
+    "Disables a system or login service" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disables a system or login service"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir sistem ya da oturum açma hizmetini devre dışı bırakır"
+          }
+        }
+      }
+    },
     "Disconnect" : {
 
     },
@@ -25810,6 +26652,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關閉"
+          }
+        }
+      }
+    },
+    "Dismiss session" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dismiss session"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oturumu kapat"
           }
         }
       }
@@ -26925,6 +27783,22 @@
       },
       "shouldTranslate" : false
     },
+    "Downloads a script and runs it immediately" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads a script and runs it immediately"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir script indirip hemen çalıştırır"
+          }
+        }
+      }
+    },
     "Drag a control onto a slot or tap to place it in the first empty slot." : {
       "comment" : "A description below the control palette that explains how users can interact with it.",
       "isCommentAutoGenerated" : true,
@@ -27942,6 +28816,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "電子郵件地址"
+          }
+        }
+      }
+    },
+    "Empties a file in place" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empties a file in place"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir dosyayı yerinde boşaltır"
           }
         }
       }
@@ -31835,6 +32725,22 @@
         }
       }
     },
+    "Erases or repartitions a disk" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erases or repartitions a disk"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir diski siler ya da yeniden bölümler"
+          }
+        }
+      }
+    },
     "Error" : {
       "comment" : "merge:ko:alt='오류'",
       "localizations" : {
@@ -32426,6 +33332,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "展開寬度調整僅適用於標準瀏海版面配置。請關閉簡約介面後再編輯。"
+          }
+        }
+      }
+    },
+    "experimental" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "experimental"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "deneysel"
           }
         }
       }
@@ -33305,6 +34227,22 @@
         }
       }
     },
+    "Flag destructive commands" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flag destructive commands"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yıkıcı komutları işaretle"
+          }
+        }
+      }
+    },
     "Floating window panel skip behaviour" : {
       "comment" : "A section header that describes the floating window panel's skip behaviour settings.",
       "isCommentAutoGenerated" : true,
@@ -33708,6 +34646,54 @@
         }
       }
     },
+    "Force-quits processes by name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Force-quits processes by name"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Süreçleri adına göre zorla sonlandırır"
+          }
+        }
+      }
+    },
+    "Force-pushes, overwriting history other people may have" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Force-pushes, overwriting history other people may have"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorla push eder, başkalarında da olabilecek geçmişin üzerine yazar"
+          }
+        }
+      }
+    },
+    "Force-deletes files outside the project folder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Force-deletes files outside the project folder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proje klasörünün dışındaki dosyaları zorla siler"
+          }
+        }
+      }
+    },
     "Foreground" : {
       "localizations" : {
         "ko" : {
@@ -33750,6 +34736,70 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "前景"
+          }
+        }
+      }
+    },
+    "Forget all remembered approvals" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forget all remembered approvals"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hatırlanan tüm onayları unut"
+          }
+        }
+      }
+    },
+    "Forget sessions after" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forget sessions after"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oturumları şu süre sonra unut"
+          }
+        }
+      }
+    },
+    "Formats a filesystem" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formats a filesystem"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir dosya sistemini biçimlendirir"
+          }
+        }
+      }
+    },
+    "Fork bomb: spawns processes until the machine stops responding" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fork bomb: spawns processes until the machine stops responding"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fork bombası: makine yanıt veremez hâle gelene dek süreç doğurur"
           }
         }
       }
@@ -37112,6 +38162,22 @@
         }
       }
     },
+    "Hooks installed for" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hooks installed for"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hook kurulan ajanlar"
+          }
+        }
+      }
+    },
     "Horizontal:" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -37202,6 +38268,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "小時"
+          }
+        }
+      }
+    },
+    "How much of the screen the Agents tab may use when the notch is open." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How much of the screen the Agents tab may use when the notch is open."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çentik açıkken Ajanlar sekmesinin ekranın ne kadarını kullanabileceği."
+          }
+        }
+      }
+    },
+    "Housekeeping" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Housekeeping"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bakım"
           }
         }
       }
@@ -38012,6 +39110,22 @@
         }
       }
     },
+    "If Atoll is closed, busy, or unsure, it stays silent and your agent's own prompt appears as usual — it can never approve something by failing." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If Atoll is closed, busy, or unsure, it stays silent and your agent's own prompt appears as usual — it can never approve something by failing."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atoll kapalıysa, meşgulse ya da emin değilse sessiz kalır ve ajanınızın kendi istemi her zamanki gibi görünür — başarısız olarak bir şeyi onaylaması mümkün değildir."
+          }
+        }
+      }
+    },
     "Image" : {
       "comment" : "Name of the \"Image\" clipboard item type.",
       "isCommentAutoGenerated" : true,
@@ -38234,6 +39348,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "匯入檔案..."
+          }
+        }
+      }
+    },
+    "Irrecoverably overwrites files" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Irrecoverably overwrites files"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosyaların üzerine geri döndürülemez biçimde yazar"
           }
         }
       }
@@ -40197,6 +41327,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "舊版"
+          }
+        }
+      }
+    },
+    "Lets an approval be remembered for this project for a week. Never offered for a command flagged as destructive." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lets an approval be remembered for this project for a week. Never offered for a command flagged as destructive."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir onayın bu proje için bir hafta hatırlanmasını sağlar. Yıkıcı olarak işaretlenen bir komut için asla sunulmaz."
           }
         }
       }
@@ -43011,6 +44157,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "請確保 LocalSend 在其他裝置上執行"
+          }
+        }
+      }
+    },
+    "Makes files writable by every user on the Mac" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Makes files writable by every user on the Mac"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosyaları Mac'teki her kullanıcının yazabileceği hâle getirir"
           }
         }
       }
@@ -46853,6 +48015,22 @@
         }
       }
     },
+    "monitoring only" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "monitoring only"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "yalnızca izleme"
+          }
+        }
+      }
+    },
     "Monitoring Status" : {
       "localizations" : {
         "fr" : {
@@ -47186,6 +48364,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "上移"
+          }
+        }
+      }
+    },
+    "Moves something over a system directory" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moves something over a system directory"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir şeyi sistem dizininin üzerine taşır"
           }
         }
       }
@@ -48400,6 +49594,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "尚未偵測到活躍網路介面。"
+          }
+        }
+      }
+    },
+    "No agent connected" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No agent connected"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bağlı ajan yok"
           }
         }
       }
@@ -49949,6 +51159,22 @@
         }
       }
     },
+    "No sessions yet" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No sessions yet"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Henüz oturum yok"
+          }
+        }
+      }
+    },
     "No storage devices detected yet." : {
       "comment" : "A message indicating that no storage devices have been detected yet.",
       "isCommentAutoGenerated" : true,
@@ -49999,6 +51225,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "尚未偵測到儲存裝置。"
+          }
+        }
+      }
+    },
+    "No supported agent was found in your home folder." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No supported agent was found in your home folder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana klasörünüzde desteklenen bir ajan bulunamadı."
           }
         }
       }
@@ -50117,6 +51359,22 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "非Notch顯示高度"
+          }
+        }
+      }
+    },
+    "None" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "None"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yok"
           }
         }
       }
@@ -50537,6 +51795,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未設定"
+          }
+        }
+      }
+    },
+    "Not watching" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not watching"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzlenmiyor"
           }
         }
       }
@@ -51172,6 +52446,22 @@
         }
       }
     },
+    "Notifications" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirimler"
+          }
+        }
+      }
+    },
     "Notify before" : {
       "comment" : "A label describing the slider that allows the user to set a reminder lead time.",
       "isCommentAutoGenerated" : true,
@@ -51316,6 +52606,22 @@
         }
       }
     },
+    "Nudges immediately, then after 8 seconds, 1, 5 and 15 minutes — widening so an unattended request does not become a stream of alerts." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nudges immediately, then after 8 seconds, 1, 5 and 15 minutes — widening so an unattended request does not become a stream of alerts."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hemen, sonra 8 saniye, 1, 5 ve 15 dakika sonra dürter — aralık genişleyerek gider, böylece ilgilenilmeyen bir istek bir uyarı seline dönüşmez."
+          }
+        }
+      }
+    },
     "Number of lines kept in the scrollback buffer. Higher values use more memory." : {
       "localizations" : {
         "ko" : {
@@ -51436,6 +52742,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關"
+          }
+        }
+      }
+    },
+    "Offer \"Always allow\"" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offer \"Always allow\""
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"Her zaman izin ver\" seçeneğini sun"
           }
         }
       }
@@ -52456,6 +53778,22 @@
         }
       }
     },
+    "opencode is not supported: it customises behaviour through JavaScript plugins rather than a hook configuration, so there is nothing for Atoll to add." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "opencode is not supported: it customises behaviour through JavaScript plugins rather than a hook configuration, so there is nothing for Atoll to add."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "opencode desteklenmiyor: davranışını hook yapılandırması yerine JavaScript eklentileriyle özelleştiriyor, dolayısıyla Atoll'ün ekleyebileceği bir şey yok."
+          }
+        }
+      }
+    },
     "Opens a transparent preview window with mock data that mirrors the current lock screen widget configuration." : {
       "localizations" : {
         "ko" : {
@@ -53000,6 +54338,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "超時"
+          }
+        }
+      }
+    },
+    "Overwrites a file with raw data" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overwrites a file with raw data"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir dosyanın üzerine ham veri yazar"
           }
         }
       }
@@ -53837,6 +55191,22 @@
         }
       }
     },
+    "Pick which agents to watch in Settings. Atoll adds a hook to that agent's own configuration." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick which agents to watch in Settings. Atoll adds a hook to that agent's own configuration."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangi ajanların izleneceğini Ayarlar'dan seçin. Atoll, o ajanın kendi yapılandırmasına bir hook ekler."
+          }
+        }
+      }
+    },
     "Picked %@" : {
       "localizations" : {
         "ko" : {
@@ -54291,6 +55661,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "播放 / 暫停"
+          }
+        }
+      }
+    },
+    "Play a sound with each reminder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play a sound with each reminder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her hatırlatmada ses çal"
           }
         }
       }
@@ -55496,6 +56882,22 @@
         }
       }
     },
+    "Privacy mode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy mode"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizlilik modu"
+          }
+        }
+      }
+    },
     "Privacy Policy" : {
       "comment" : "A link to the privacy policy.",
       "isCommentAutoGenerated" : true,
@@ -55936,6 +57338,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "提供商"
+          }
+        }
+      }
+    },
+    "Publishes a package publicly" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publishes a package publicly"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir paketi herkese açık olarak yayımlar"
           }
         }
       }
@@ -57135,6 +58553,70 @@
         }
       }
     },
+    "Recursively deletes everything in the current directory" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recursively deletes everything in the current directory"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçerli dizindeki her şeyi özyinelemeli olarak siler"
+          }
+        }
+      }
+    },
+    "Recursively deletes a system or home directory" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recursively deletes a system or home directory"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir sistem ya da ana dizini özyinelemeli olarak siler"
+          }
+        }
+      }
+    },
+    "Recursively deletes a path outside the project folder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recursively deletes a path outside the project folder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proje klasörünün dışındaki bir yolu özyinelemeli olarak siler"
+          }
+        }
+      }
+    },
+    "Recursively deletes a directory" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recursively deletes a directory"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir dizini özyinelemeli olarak siler"
+          }
+        }
+      }
+    },
     "Redirect URI:" : {
 
     },
@@ -57546,6 +59028,22 @@
         }
       }
     },
+    "Remind me while an agent waits" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remind me while an agent waits"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir ajan beklerken bana hatırlat"
+          }
+        }
+      }
+    },
     "Reminder Live Activity" : {
       "comment" : "A section header that lists the options related to live activity notifications for reminders.",
       "isCommentAutoGenerated" : true,
@@ -57704,6 +59202,22 @@
         }
       }
     },
+    "Reminders are also silenced automatically while a Focus mode is on." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminders are also silenced automatically while a Focus mode is on."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir Odak modu açıkken hatırlatmalar ayrıca kendiliğinden susturulur."
+          }
+        }
+      }
+    },
     "Remove" : {
       "comment" : "A button that removes an extension from the authorized list.",
       "isCommentAutoGenerated" : true,
@@ -57808,6 +59322,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "從授權延伸功能列表中移除 %@？這將關閉此 App 的所有活躍即時動態、鎖定畫面小工具和瀏海體驗。"
+          }
+        }
+      }
+    },
+    "Remove all Atoll hooks" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove all Atoll hooks"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm Atoll hook'larını kaldır"
+          }
+        }
+      }
+    },
+    "Remove Atoll's hooks from every agent?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove Atoll's hooks from every agent?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atoll'ün hook'ları her ajandan kaldırılsın mı?"
           }
         }
       }
@@ -57976,6 +59522,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除所選"
+          }
+        }
+      }
+    },
+    "Removes a published package" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removes a published package"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yayımlanmış bir paketi kaldırır"
           }
         }
       }
@@ -59180,6 +60742,22 @@
         }
       }
     },
+    "Resets privacy permissions for apps" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resets privacy permissions for apps"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamaların gizlilik izinlerini sıfırlar"
+          }
+        }
+      }
+    },
     "Restart" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -59959,6 +61537,38 @@
         }
       }
     },
+    "Rewrites the entire repository history" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewrites the entire repository history"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deponun tüm geçmişini yeniden yazar"
+          }
+        }
+      }
+    },
+    "Rewrites a remote branch, but refuses if someone else pushed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewrites a remote branch, but refuses if someone else pushed"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uzak dalı yeniden yazar, ama başkası push ettiyse reddeder"
+          }
+        }
+      }
+    },
     "Rich Text" : {
       "comment" : "Name for a clipboard item type that represents a rich text format.",
       "isCommentAutoGenerated" : true,
@@ -60236,6 +61846,22 @@
         }
       }
     },
+    "running" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "running"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "çalışıyor"
+          }
+        }
+      }
+    },
     "Running" : {
       "localizations" : {
         "ar" : {
@@ -60344,6 +61970,38 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "執行中"
+          }
+        }
+      }
+    },
+    "Runs as root" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Runs as root"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "root olarak çalışır"
+          }
+        }
+      }
+    },
+    "Runs `eval`, so what executes is not visible here" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Runs `eval`, so what executes is not visible here"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`eval` çalıştırır, dolayısıyla ne yürütüleceği burada görünmez"
           }
         }
       }
@@ -62666,6 +64324,22 @@
         }
       }
     },
+    "Send" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gönder"
+          }
+        }
+      }
+    },
     "Sensitivity" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -62975,6 +64649,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "工作階段總計"
+          }
+        }
+      }
+    },
+    "Session tracking is confirmed for this agent. Whether it acts on an approval from Atoll has not been observed." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Session tracking is confirmed for this agent. Whether it acts on an approval from Atoll has not been observed."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ajan için oturum izleme doğrulandı. Atoll'den gelen bir onaya göre davranıp davranmadığı gözlemlenmedi."
+          }
+        }
+      }
+    },
+    "Sessions tracked" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sessions tracked"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzlenen oturumlar"
           }
         }
       }
@@ -67078,6 +68784,54 @@
         }
       }
     },
+    "Show waiting agents in the closed notch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show waiting agents in the closed notch"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekleyen ajanları kapalı çentikte göster"
+          }
+        }
+      }
+    },
+    "Shown next to your track in the closed notch, beside the number of agents running." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shown next to your track in the closed notch, beside the number of agents running."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kapalı çentikte, parçanızın yanında, çalışan ajan sayısının hemen yanında görünür."
+          }
+        }
+      }
+    },
+    "Shows a card in the notch for every coding agent running in a terminal." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows a card in the notch for every coding agent running in a terminal."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir terminalde çalışan her kodlama ajanı için çentikte bir kart gösterir."
+          }
+        }
+      }
+    },
     "Shows green camera icon and yellow microphone icon when in use. Uses event-driven CoreAudio and CoreMediaIO APIs." : {
       "localizations" : {
         "ko" : {
@@ -67514,6 +69268,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用 Spotify 登入"
+          }
+        }
+      }
+    },
+    "Silences reminders without hiding the request, so nothing pops up while you are sharing your screen." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silences reminders without hiding the request, so nothing pops up while you are sharing your screen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İsteği gizlemeden hatırlatmaları susturur, böylece ekranınızı paylaşırken hiçbir şey açılmaz."
           }
         }
       }
@@ -69471,6 +71241,22 @@
         }
       }
     },
+    "Start an agent in a terminal and it will appear here." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start an agent in a terminal and it will appear here."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir terminalde ajan başlatın, burada görünecektir."
+          }
+        }
+      }
+    },
     "Start Color Picking" : {
       "localizations" : {
         "fr" : {
@@ -71115,6 +72901,22 @@
         }
       }
     },
+    "Subagents finished" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subagents finished"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biten alt ajanlar"
+          }
+        }
+      }
+    },
     "Sunrise at %@" : {
       "comment" : "A view representing the sunrise time, displayed in a horizontal stack with an icon and the time itself.",
       "isCommentAutoGenerated" : true,
@@ -71933,6 +73735,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分頁"
+          }
+        }
+      }
+    },
+    "Tab height" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tab height"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sekme yüksekliği"
           }
         }
       }
@@ -72824,6 +74642,22 @@
         }
       }
     },
+    "This agent is not installed here, so its hook contract is written from documentation and has not been confirmed." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This agent is not installed here, so its hook contract is written from documentation and has not been confirmed."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ajan burada kurulu değil; hook sözleşmesi belgelere göre yazıldı ve doğrulanmadı."
+          }
+        }
+      }
+    },
     "This duration powers the \"Custom\" option inside the timer popover for quick access." : {
       "comment" : "A footer description for the custom timer settings, explaining their purpose.",
       "isCommentAutoGenerated" : true,
@@ -73036,6 +74870,38 @@
         }
       }
     },
+    "This session only" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This session only"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca bu oturum"
+          }
+        }
+      }
+    },
+    "This session" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This session"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu oturum"
+          }
+        }
+      }
+    },
     "Tiler" : {
       "localizations" : {
         "ko" : {
@@ -73078,6 +74944,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "視窗管理"
+          }
+        }
+      }
+    },
+    "Time left before Atoll stops waiting and the agent asks you itself" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time left before Atoll stops waiting and the agent asks you itself"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atoll beklemeyi bırakıp ajanın soruyu size kendisi sormasına kalan süre"
           }
         }
       }
@@ -74859,6 +76741,22 @@
         }
       }
     },
+    "Turn it on in Settings to watch your coding agents here." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn it on in Settings to watch your coding agents here."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kodlama ajanlarınızı burada izlemek için Ayarlar'dan açın."
+          }
+        }
+      }
+    },
     "Turn off 'Show event for entire duration' to use the post-start duration option." : {
       "localizations" : {
         "ko" : {
@@ -75009,6 +76907,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關閉此項以在瀏海行事曆和提醒即時動態中包含全天事件。"
+          }
+        }
+      }
+    },
+    "Turning this on adds a hook to each selected agent's own configuration file. Atoll backs the file up first, only touches its `hooks` section, and removes its entries again when you turn this off." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turning this on adds a hook to each selected agent's own configuration file. Atoll backs the file up first, only touches its `hooks` section, and removes its entries again when you turn this off."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu açmak, seçilen her ajanın kendi yapılandırma dosyasına bir hook ekler. Atoll önce dosyayı yedekler, yalnızca `hooks` bölümüne dokunur ve bunu kapattığınızda girdilerini geri alır."
           }
         }
       }
@@ -75165,6 +77079,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "與 macOS「備忘錄」進行雙向同步。在 Atoll 中建立的備忘錄會顯示在「備忘錄」的 Atoll 資料夾中，現有的 Apple 備忘錄也會匯入瀏海區域。出現提示時，請授予「備忘錄」自動化權限。"
+          }
+        }
+      }
+    },
+    "Typing here gives the notch keyboard focus." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typing here gives the notch keyboard focus."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buraya yazmak klavye odağını çentiğe verir."
           }
         }
       }
@@ -77037,6 +78967,22 @@
         }
       }
     },
+    "Use the plain symbol instead" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the plain symbol instead"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunun yerine düz simgeyi kullan"
+          }
+        }
+      }
+    },
     "Use the sliders below to pick unique Apple liquid-glass variants for each widget." : {
       "comment" : "merge:ko:alt='아래의 슬라이더를 사용하여 각 위젯의 고유한 Apple Liquid Glass 스타일을 선택하세요.'",
       "localizations" : {
@@ -77086,6 +79032,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用下方滑桿為每個小工具選擇獨特的 Apple 液態玻璃變體。"
+          }
+        }
+      }
+    },
+    "Use this one" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use this one"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu kullan"
           }
         }
       }
@@ -78692,6 +80654,54 @@
         }
       }
     },
+    "waiting" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "waiting"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bekliyor"
+          }
+        }
+      }
+    },
+    "Waiting for you" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waiting for you"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sizi bekliyor"
+          }
+        }
+      }
+    },
+    "waiting for your decision" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "waiting for your decision"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kararınızı bekliyor"
+          }
+        }
+      }
+    },
     "Warning" : {
       "localizations" : {
         "ko" : {
@@ -78734,6 +80744,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "警告"
+          }
+        }
+      }
+    },
+    "Warns before approving things like recursive deletes, force pushes, or piping a download into a shell." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warns before approving things like recursive deletes, force pushes, or piping a download into a shell."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Özyinelemeli silme, zorla push ya da indirilen bir şeyi kabuğa borulama gibi işlemleri onaylamadan önce uyarır."
+          }
+        }
+      }
+    },
+    "Watching" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watching"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzleniyor"
+          }
+        }
+      }
+    },
+    "Watch AI coding agents" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watch AI coding agents"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yapay zekâ kodlama ajanlarını izle"
           }
         }
       }
@@ -79177,6 +81235,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "歡迎視窗"
+          }
+        }
+      }
+    },
+    "What should it do instead?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What should it do instead?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunun yerine ne yapsın?"
           }
         }
       }
@@ -80208,6 +82282,22 @@
         }
       }
     },
+    "Working" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Working"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çalışıyor"
+          }
+        }
+      }
+    },
     "Works with most media apps, including browsers, to detect what's playing. Note: This may be removed in a future macOS version." : {
       "comment" : "Description of a media controller type when it works with most media apps, including browsers, to detect what's playing. Note: This may be removed in a future macOS version.",
       "isCommentAutoGenerated" : true,
@@ -80358,6 +82448,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "僅寫入"
+          }
+        }
+      }
+    },
+    "Writes directly to a disk device" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Writes directly to a disk device"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doğrudan bir disk aygıtına yazar"
           }
         }
       }
@@ -80832,6 +82938,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未經你同意，相機不會被使用，且不會錄製或儲存任何內容。"
+          }
+        }
+      }
+    },
+    "Your own hooks and every other setting in those files are left untouched. Backups stay in Atoll's application support folder." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your own hooks and every other setting in those files are left untouched. Backups stay in Atoll's application support folder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kendi hook'larınız ve o dosyalardaki diğer tüm ayarlar olduğu gibi kalır. Yedekler Atoll'ün uygulama destek klasöründe durmayı sürdürür."
           }
         }
       }
