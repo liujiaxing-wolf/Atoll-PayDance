@@ -855,7 +855,7 @@ struct SettingsView: View {
             SettingsSearchEntry(tab: .lockScreen, title: "Timer liquid mode", keywords: ["timer", "standard", "custom"], highlightID: SettingsTab.lockScreen.highlightID(for: "Timer liquid mode")),
             SettingsSearchEntry(tab: .lockScreen, title: "Timer widget variant", keywords: ["timer variant", "liquid"], highlightID: SettingsTab.lockScreen.highlightID(for: "Timer widget variant")),
             SettingsSearchEntry(tab: .lockScreen, title: "Show lock screen weather", keywords: ["weather widget"], highlightID: SettingsTab.lockScreen.highlightID(for: "Show lock screen weather")),
-            SettingsSearchEntry(tab: .lockScreen, title: "Widget layout", keywords: ["inline", "circular", "widget layout", "weather layout", "status widget"], highlightID: SettingsTab.lockScreen.highlightID(for: "Widget layout")),
+            SettingsSearchEntry(tab: .lockScreen, title: "Widget layout", keywords: ["inline", "circular", "widget layout", "weather layout", "status widget"], highlightID: SettingsTab.lockScreen.highlightID(for: "Show lock screen weather")),
             SettingsSearchEntry(tab: .lockScreen, title: "Weather data provider", keywords: ["wttr", "open meteo"], highlightID: SettingsTab.lockScreen.highlightID(for: "Weather data provider")),
             SettingsSearchEntry(tab: .lockScreen, title: "Temperature unit", keywords: ["celsius", "fahrenheit"], highlightID: SettingsTab.lockScreen.highlightID(for: "Temperature unit")),
             SettingsSearchEntry(tab: .lockScreen, title: "Show location label", keywords: ["location", "weather"], highlightID: SettingsTab.lockScreen.highlightID(for: "Show location label")),
@@ -913,6 +913,7 @@ struct SettingsView: View {
             // Clipboard
             SettingsSearchEntry(tab: .clipboard, title: "Enable Clipboard Manager", keywords: ["clipboard", "manager"], highlightID: SettingsTab.clipboard.highlightID(for: "Enable Clipboard Manager")),
             SettingsSearchEntry(tab: .clipboard, title: "Show Clipboard Icon", keywords: ["icon", "clipboard"], highlightID: SettingsTab.clipboard.highlightID(for: "Show Clipboard Icon")),
+            SettingsSearchEntry(tab: .clipboard, title: "Save History Across Restarts", keywords: ["clipboard", "history", "save", "persist", "privacy", "disk", "disable"], highlightID: SettingsTab.clipboard.highlightID(for: "Enable Clipboard Manager")),
             SettingsSearchEntry(tab: .clipboard, title: "Display Mode", keywords: ["list", "grid", "clipboard"], highlightID: SettingsTab.clipboard.highlightID(for: "Display Mode")),
             SettingsSearchEntry(tab: .clipboard, title: "History Size", keywords: ["history", "clipboard"], highlightID: SettingsTab.clipboard.highlightID(for: "History Size")),
 
@@ -6947,10 +6948,16 @@ struct Shortcuts: View {
                 } header: {
                     Text("Clipboard")
                 } footer: {
-                    Text("Opens the clipboard history panel. Default is Cmd+Shift+V (similar to Windows+V on PC). Only works when clipboard feature is enabled.")
-                        .multilineTextAlignment(.trailing)
-                        .foregroundStyle(.secondary)
-                        .font(.caption)
+                    Group {
+                        if let shortcut = boundShortcutDescription(for: .clipboardHistoryPanel) {
+                            Text("Opens the clipboard history panel, currently \(shortcut). Only works when clipboard feature is enabled.")
+                        } else {
+                            Text("Opens the clipboard history panel. No shortcut is set. Only works when clipboard feature is enabled.")
+                        }
+                    }
+                    .multilineTextAlignment(.trailing)
+                    .foregroundStyle(.secondary)
+                    .font(.caption)
                 }
 
                 Section {
@@ -7999,6 +8006,13 @@ struct StatsSettings: View {
     }
 }
 
+/// Renders the shortcut the user actually has bound, rather than a hard-coded
+/// string that silently goes stale the moment anyone rebinds it.
+@MainActor
+private func boundShortcutDescription(for name: KeyboardShortcuts.Name) -> String? {
+    KeyboardShortcuts.getShortcut(for: name)?.description
+}
+
 struct ClipboardSettings: View {
     @ObservedObject var clipboardManager = ClipboardManager.shared
     @Default(.enableClipboardManager) var enableClipboardManager
@@ -8027,10 +8041,25 @@ struct ClipboardSettings: View {
             } header: {
                 Text("Clipboard Manager")
             } footer: {
-                Text("Monitor clipboard changes and keep a history of recent copies. Use Cmd+Shift+V to quickly access clipboard history.")
+                if let shortcut = boundShortcutDescription(for: .clipboardHistoryPanel) {
+                    Text("Monitor clipboard changes and keep a history of recent copies. Press \(shortcut) to open clipboard history.")
+                } else {
+                    Text("Monitor clipboard changes and keep a history of recent copies. Set a shortcut under Shortcuts to open clipboard history.")
+                }
             }
 
             if enableClipboardManager {
+                Section {
+                    Defaults.Toggle(key: .persistClipboardHistory) {
+                        Text("Save History Across Restarts")
+                    }
+                    .settingsHighlight(id: highlightID("Save History Across Restarts"))
+                } header: {
+                    Text("Privacy")
+                } footer: {
+                    Text("When off, clipboard history is kept in memory for this session only and is never written to disk. Turning it off also erases history that was already saved. Pinned items are kept either way.")
+                }
+
                 Section {
                     Defaults.Toggle(key: .showClipboardIcon) {
                         Text("Show Clipboard Icon")
@@ -8107,8 +8136,7 @@ struct ClipboardSettings: View {
                     .disabled(clipboardManager.clipboardHistory.isEmpty)
 
                     Button("Clear Pinned Items") {
-                        clipboardManager.pinnedItems.removeAll()
-                        clipboardManager.savePinnedItemsToDefaults()
+                        clipboardManager.clearPinnedItems()
                     }
                     .foregroundColor(.red)
                     .disabled(clipboardManager.pinnedItems.isEmpty)
