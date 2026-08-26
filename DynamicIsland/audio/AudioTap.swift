@@ -505,6 +505,8 @@ class AudioTap: NSObject {
     }
 }
 
+extension AudioTap: @unchecked Sendable {}
+
 // Helper to convert OSStatus to readable string
 private func fourCharCodeToString(_ code: OSStatus) -> String {
     let bytes = [
