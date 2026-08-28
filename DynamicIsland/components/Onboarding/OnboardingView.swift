@@ -30,6 +30,7 @@ enum OnboardingStep {
     case calendarPermission
     case musicPermission
     case profileSelection
+    case liveEarnings
     case finished
 }
 
@@ -112,6 +113,21 @@ struct OnboardingView: View {
                     onContinue: { profiles in
                         applyProfileSettings(profiles)
                         withAnimation(.easeInOut(duration: 0.6)) {
+                            step = .liveEarnings
+                        }
+                    }
+                )
+                .transition(.opacity)
+
+            case .liveEarnings:
+                LiveEarningsOnboardingView(
+                    onContinue: {
+                        withAnimation(.easeInOut(duration: 0.6)) {
+                            step = .finished
+                        }
+                    },
+                    onSkip: {
+                        withAnimation(.easeInOut(duration: 0.6)) {
                             step = .finished
                         }
                     }
@@ -157,4 +173,3 @@ struct OnboardingView: View {
         await calendarService.requestAccess()
     }
 }
-
