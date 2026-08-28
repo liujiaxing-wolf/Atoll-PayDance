@@ -69,6 +69,10 @@ struct TabSelectionView: View {
             tabsArray.append(TabModel(label: "Home", icon: "house.fill", view: .home))
         }
 
+        if showCalendar {
+            tabsArray.append(TabModel(label: "Work Calendar", icon: "calendar", view: .calendar))
+        }
+
         if Defaults[.dynamicShelf] {
             tabsArray.append(TabModel(label: "Shelf", icon: "tray.fill", view: .shelf))
         }
@@ -163,7 +167,7 @@ struct TabSelectionView: View {
         if enableMinimalisticUI {
             return true
         }
-        return showStandardMediaControls || showCalendar || showMirror
+        return showStandardMediaControls || showMirror || LiveEarningsController.shared.shouldShowHomeCard
     }
 
     private func isSelected(_ tab: TabModel) -> Bool {
