@@ -24,6 +24,14 @@ import AppKit
 import SwiftUI
 import Sparkle
 
+enum SettingsNavigationTarget {
+    static let captureShortcutsHighlightID = "capture-keyboard-shortcuts"
+}
+
+extension Notification.Name {
+    static let atollOpenCaptureShortcutSettings = Notification.Name("AtollOpenCaptureShortcutSettings")
+}
+
 class SettingsWindowController: NSWindowController {
     static let shared = SettingsWindowController()
     private var updaterController: SPUStandardUpdaterController?
@@ -110,6 +118,13 @@ class SettingsWindowController: NSWindowController {
         // Force window to front after activation
         DispatchQueue.main.async { [weak self] in
             self?.window?.makeKeyAndOrderFront(nil)
+        }
+    }
+
+    func showCaptureShortcutSettings() {
+        showWindow()
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: .atollOpenCaptureShortcutSettings, object: nil)
         }
     }
     
