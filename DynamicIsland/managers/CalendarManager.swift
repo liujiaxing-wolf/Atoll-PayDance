@@ -39,11 +39,14 @@ class CalendarManager: ObservableObject {
     @Published var calendarAuthorizationStatus: EKAuthorizationStatus = .notDetermined
     @Published var reminderAuthorizationStatus: EKAuthorizationStatus = .notDetermined
     @Published var lockScreenEvents: [EventModel] = []
+    @Published private(set) var workCalendarItemsByMonth: [LocalDate: [EventModel]] = [:]
+    @Published private(set) var atollManagedCalendarItemCount = 0
 
     private var lockScreenPreviewEvents: [EventModel]?
 
     private var selectedCalendars: [CalendarModel] = []
     private let calendarService = CalendarService()
+    private let atollCalendarItemRegistry = AtollCalendarItemRegistry.shared
     private var lastEventsFetchDate: Date?
     private let reloadRefreshInterval: TimeInterval = 15
     private var eventStoreChangedObserver: NSObjectProtocol?
@@ -62,10 +65,14 @@ class CalendarManager: ObservableObject {
 
     private init() {
         currentWeekStartDate = CalendarManager.startOfDay(Date())
+        calendarAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
+        reminderAuthorizationStatus = EKEventStore.authorizationStatus(for: .reminder)
         setupEventStoreChangedObserver()
         startLockScreenRefreshLoop()
         Task {
             await reloadCalendarAndReminderLists()
+            await preloadCurrentWorkCalendarMonthIfAuthorized()
+            await refreshAtollManagedCalendarItemCount()
         }
     }
 
@@ -254,6 +261,61 @@ class CalendarManager: ObservableObject {
         await updateLockScreenEvents(force: true)
     }
 
+    /// Fetches calendar events and reminders for a visible month without
+    /// replacing the selected day's `events` collection.
+    func calendarItems(from startDate: Date, to endDate: Date) async -> [EventModel] {
+        let service = calendarService
+        let items = await eventFetchLimiter.run {
+            // The work calendar must include items written to the system's
+            // default calendar/reminder list, even when that list was granted
+            // after Atoll's existing calendar selection was saved. An empty ID
+            // filter intentionally means "all accessible calendars".
+            await service.events(from: startDate, to: endDate, calendars: [])
+        }
+        workCalendarItemsByMonth[workCalendarMonthKey(for: startDate)] = items
+        return items
+    }
+
+    func cachedWorkCalendarItems(for month: Date) -> [EventModel] {
+        workCalendarItemsByMonth[workCalendarMonthKey(for: month)] ?? []
+    }
+
+    private func preloadCurrentWorkCalendarMonthIfAuthorized() async {
+        guard hasCalendarAccess || hasReminderAccess else { return }
+        let calendar = Calendar.autoupdatingCurrent
+        let month = calendar.startOfMonth(containing: Date())
+        guard let nextMonth = calendar.date(byAdding: .month, value: 1, to: month) else { return }
+        _ = await calendarItems(from: month, to: nextMonth)
+    }
+
+    private func workCalendarMonthKey(for date: Date) -> LocalDate {
+        let calendar = Calendar.autoupdatingCurrent
+        let month = calendar.startOfMonth(containing: date)
+        return LocalDate(month, calendar: calendar)
+    }
+
+    /// Refreshes the privacy state before the standalone work calendar reads
+    /// EventKit. Development builds are re-signed frequently, which can make
+    /// macOS treat a newly installed build as an unapproved client even though
+    /// the user's existing Calendar and Reminders data is still intact.
+    func prepareWorkCalendarAccess() async {
+        let eventStatus = EKEventStore.authorizationStatus(for: .event)
+        calendarAuthorizationStatus = eventStatus
+        if eventStatus == .notDetermined {
+            _ = await calendarService.requestAccess(to: .event)
+            calendarAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
+        }
+
+        let reminderStatus = EKEventStore.authorizationStatus(for: .reminder)
+        reminderAuthorizationStatus = reminderStatus
+        if reminderStatus == .notDetermined {
+            _ = await calendarService.requestAccess(to: .reminder)
+            reminderAuthorizationStatus = EKEventStore.authorizationStatus(for: .reminder)
+        }
+
+        await reloadCalendarAndReminderLists()
+    }
+
     func updateLockScreenEvents(force: Bool = false) async {
         if let previewEvents = lockScreenPreviewEvents {
             if lockScreenEvents != previewEvents {
@@ -415,6 +477,95 @@ class CalendarManager: ObservableObject {
     func setReminderCompleted(reminderID: String, completed: Bool) async {
         await calendarService.setReminderCompleted(reminderID: reminderID, completed: completed)
         await updateEvents(force: true)
+    }
+
+    func createEvent(title: String, start: Date, end: Date, isAllDay: Bool) async throws {
+        await checkCalendarAuthorization()
+        guard hasCalendarAccess else { throw CalendarItemCreationError.eventsAccessRequired }
+        let id = try await calendarService.createEvent(title: title, start: start, end: end, isAllDay: isAllDay)
+        do {
+            try await atollCalendarItemRegistry.insert(id: id, isReminder: false)
+        } catch {
+            try? await calendarService.deleteCalendarItem(id: id, isReminder: false)
+            throw error
+        }
+        await refreshAtollManagedCalendarItemCount()
+        ignoreEventStoreChangesUntil = Date().addingTimeInterval(selfInducedChangeSuppression)
+        await reloadCalendarAndReminderLists()
+        await updateEvents(force: true)
+        await updateLockScreenEvents(force: true)
+    }
+
+    func createReminder(title: String, due: Date) async throws {
+        await checkReminderAuthorization()
+        guard hasReminderAccess else { throw CalendarItemCreationError.remindersAccessRequired }
+        let id = try await calendarService.createReminder(title: title, due: due)
+        do {
+            try await atollCalendarItemRegistry.insert(id: id, isReminder: true)
+        } catch {
+            try? await calendarService.deleteCalendarItem(id: id, isReminder: true)
+            throw error
+        }
+        await refreshAtollManagedCalendarItemCount()
+        ignoreEventStoreChangesUntil = Date().addingTimeInterval(selfInducedChangeSuppression)
+        await reloadCalendarAndReminderLists()
+        await updateEvents(force: true)
+        await updateLockScreenEvents(force: true)
+    }
+
+    func updateEvent(id: String, title: String, start: Date, end: Date, isAllDay: Bool) async throws {
+        try await calendarService.updateEvent(id: id, title: title, start: start, end: end, isAllDay: isAllDay)
+        await refreshAfterCalendarMutation()
+    }
+
+    func updateReminder(id: String, title: String, due: Date) async throws {
+        try await calendarService.updateReminder(id: id, title: title, due: due)
+        await refreshAfterCalendarMutation()
+    }
+
+    func deleteCalendarItem(id: String, isReminder: Bool) async throws {
+        try await calendarService.deleteCalendarItem(id: id, isReminder: isReminder)
+        try? await atollCalendarItemRegistry.remove(id: id)
+        await refreshAtollManagedCalendarItemCount()
+        await refreshAfterCalendarMutation()
+    }
+
+    func deleteAllAtollManagedCalendarItems() async -> (deleted: Int, failed: Int) {
+        let registeredItems = (try? await atollCalendarItemRegistry.all()) ?? []
+        var resolvedIDs = Set<String>()
+        var deleted = 0
+        var failed = 0
+
+        for item in registeredItems {
+            do {
+                try await calendarService.deleteCalendarItem(id: item.id, isReminder: item.isReminder)
+                resolvedIDs.insert(item.id)
+                deleted += 1
+            } catch CalendarItemCreationError.itemNotFound {
+                // A user may have already removed the system item outside Atoll.
+                // Treat the stale registry entry as resolved.
+                resolvedIDs.insert(item.id)
+            } catch {
+                failed += 1
+            }
+        }
+
+        try? await atollCalendarItemRegistry.remove(ids: resolvedIDs)
+        await refreshAtollManagedCalendarItemCount()
+        workCalendarItemsByMonth.removeAll()
+        await refreshAfterCalendarMutation()
+        return (deleted, failed)
+    }
+
+    private func refreshAtollManagedCalendarItemCount() async {
+        atollManagedCalendarItemCount = (try? await atollCalendarItemRegistry.all().count) ?? 0
+    }
+
+    private func refreshAfterCalendarMutation() async {
+        ignoreEventStoreChangesUntil = Date().addingTimeInterval(selfInducedChangeSuppression)
+        await reloadCalendarAndReminderLists()
+        await updateEvents(force: true)
+        await updateLockScreenEvents(force: true)
     }
 }
 
