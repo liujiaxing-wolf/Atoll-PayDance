@@ -3,40 +3,6 @@
 </p>
 <h1 align="center">Atoll × 薪跳</h1>
 <p align="center">面向 macOS 刘海屏的效率中心与实时收益工具</p>
-<p align="center">
-<a href="https://trendshift.io/repositories/15291" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15291" alt="Ebullioscopic%2FAtoll | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-</p>
-<p align="center">
-  <a href="https://github.com/Ebullioscopic/Atoll/stargazers">
-    <img src="https://img.shields.io/github/stars/Ebullioscopic/Atoll?style=social" alt="GitHub stars"/>
-  </a>
-  <a href="https://github.com/Ebullioscopic/Atoll/network/members">
-    <img src="https://img.shields.io/github/forks/Ebullioscopic/Atoll?style=social" alt="GitHub forks"/>
-  </a>
-  <a href="https://github.com/Ebullioscopic/Atoll/releases">
-    <img src="https://img.shields.io/github/downloads/Ebullioscopic/Atoll/total?label=Downloads" alt="GitHub downloads"/>
-  </a>
-  <a href="https://discord.gg/PaqFkRTDF8">
-    <img src="https://dcbadge.limes.pink/api/server/https://discord.gg/PaqFkRTDF8?style=flat" alt="Discord server"/>
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/sponsors/Ebullioscopic">
-    <img src="https://img.shields.io/badge/Sponsor-Ebullioscopic-ff69b4?style=for-the-badge&logo=github" alt="Sponsor Ebullioscopic"/>
-  </a>
-  <a href="https://github.com/Ebullioscopic/Atoll/releases/latest">
-    <img src="https://img.shields.io/badge/Download-Atoll%20for%20macOS-0A84FF?style=for-the-badge&logo=apple" alt="Download Atoll for macOS"/>
-  </a>
-  <a href="https://www.buymeacoffee.com/kryoscopic">
-    <img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-kryoscopic-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=000000" alt="Buy Me a Coffee for kryoscopic"/>
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://discord.gg/PaqFkRTDF8">Join our Discord community</a>
-</p>
-
 本项目把“薪跳”的实时收益能力完整嵌入 Atoll：刘海静默时显示持续增长的收益数字，悬停展开后仍保留 Atoll 原有能力，并提供收益看板、工作日历、日程与待办、截图录屏和快捷键配置。
 
 这是面向 **macOS 刘海屏设备** 的融合版本，不是原先的 Windows 薪跳桌面版。所有薪资、工作日和偏好设置默认保存在本机。
@@ -59,13 +25,6 @@
 - [第一阶段验收清单](docs/%E4%B8%80%E6%9C%9F%E9%AA%8C%E6%94%B6%E6%B8%85%E5%8D%95.md)
 - [第二阶段验收清单](docs/%E4%BA%8C%E6%9C%9F%E9%AA%8C%E6%94%B6%E6%B8%85%E5%8D%95.md)
 
-<p align="center">
-  <img src="https://i.postimg.cc/t49mW5yN/Screenshot-2026-03-02-at-6-00-22-PM.png" alt="Atoll lock screen" width="920">
-</p>
-
-
-
-
 
 ## Highlights
 - Media controls for Apple Music, Spotify, Cider, and more with inline previews.
@@ -79,10 +38,6 @@
 - Gesture controls for opening/closing the notch and media navigation.
 - Parallax hover interactions with smooth transitions.
 - Lock screen appearance and positioning controls for panels and widgets.
-
-<p align="center">
-  <img src="https://i.postimg.cc/HkLGn6yH/846F86A4_A2F9_4CD6_BC84_1D720D377728_1_201_a.jpg" alt="Atoll preview" width="920">
-</p>
 
 ## Requirements
 - macOS 14.6 or later (optimised for macOS 15+).
@@ -147,22 +102,13 @@ Atoll builds upon the work of several open-source projects and draws inspiration
 
 - [**OpenRouter**](https://openrouter.ai) - API for getting automated model pricing
 
-## Contributors
+## Upstream Contributors
+
+感谢 Atoll 及其上游开源项目的所有贡献者。本仓库保留原项目完整 Git 历史、许可证和版权声明。
 
 <a href="https://github.com/Ebullioscopic/Atoll/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Ebullioscopic/Atoll" />
 </a>
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Ebullioscopic/Atoll&type=timeline&legend=top-left)](https://www.star-history.com/#Ebullioscopic/Atoll&type=timeline&legend=top-left)
-
-## Updating Existing Clones
-If you previously cloned DynamicIsland, update the remote to track the Atoll repository:
-
-```bash
-git remote set-url origin https://github.com/Ebullioscopic/Atoll.git
-```
 
 A heartfelt thanks to [TheBoredTeam](https://github.com/TheBoredTeam) for being supportive and being totally awesome, Atoll would not have been possible without Boring.Notch
 
