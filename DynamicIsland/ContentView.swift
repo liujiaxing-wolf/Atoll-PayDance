@@ -49,6 +49,8 @@ struct ContentView: View {
     @ObservedObject var privacyManager = PrivacyIndicatorManager.shared
     @ObservedObject var doNotDisturbManager = DoNotDisturbManager.shared
     @ObservedObject var lockScreenManager = LockScreenManager.shared
+    @ObservedObject var liveEarningsController = LiveEarningsController.shared
+    @ObservedObject var atollRecordingCoordinator = AtollRecordingCoordinator.shared
     @ObservedObject var capsLockManager = CapsLockManager.shared
     @ObservedObject var extensionLiveActivityManager = ExtensionLiveActivityManager.shared
     @ObservedObject var extensionNotchExperienceManager = ExtensionNotchExperienceManager.shared
@@ -170,6 +172,16 @@ struct ContentView: View {
         if coordinator.currentView == .timer {
             return CGSize(width: baseSize.width, height: 250) // Extra height for timer presets
         }
+
+        if coordinator.currentView == .calendar {
+            // The standalone work calendar uses the full, vertical layout from
+            // the dedicated calendar window: complete month first, editor below.
+            // Keep enough room for all six calendar rows without extending past
+            // the usable display on shorter MacBook screens.
+            let screenHeight = NSScreen.main?.visibleFrame.height ?? 800
+            let calendarHeight = min(820, max(600, screenHeight - 70))
+            return CGSize(width: baseSize.width, height: max(baseSize.height, calendarHeight))
+        }
         
         if coordinator.currentView == .notes {
             let preferredHeight = coordinator.notesLayoutState.preferredHeight
@@ -207,6 +219,24 @@ struct ContentView: View {
 
         if coordinator.currentView == .llmUsage {
             return CGSize(width: baseSize.width, height: max(baseSize.height, llmUsageOpenNotchHeight))
+        }
+
+        if coordinator.currentView == .home,
+           vm.notchState == .open,
+           !isNonNotchScreen,
+           liveEarningsController.shouldShowHomeCard {
+            let adjusted = inlineLyricsAdjustedNotchSize(from: baseSize, isHomeTabActive: true)
+            return CGSize(
+                width: adjusted.width,
+                height: adjusted.height + 118 + 100 + LiveEarningsLayout.expandedHomeTopInset
+            )
+        }
+
+        if coordinator.currentView == .home,
+           vm.notchState == .open,
+           !isNonNotchScreen {
+            let adjusted = inlineLyricsAdjustedNotchSize(from: baseSize, isHomeTabActive: true)
+            return CGSize(width: adjusted.width, height: adjusted.height + 100)
         }
         
         guard coordinator.currentView == .stats else {
@@ -415,6 +445,17 @@ struct ContentView: View {
             return true
         }
         return screen.safeAreaInsets.top <= 0
+    }
+
+    /// Extra breathing room below the physical notch for expanded content.
+    private var liveEarningsExpandedHomeTopInset: CGFloat {
+        guard vm.notchState == .open, !isNonNotchScreen else {
+            return 0
+        }
+        // Every expanded tab shares the same header. Keeping this inset only on
+        // Home/Calendar lets a transient tab switch push the icons back under
+        // the physical display cutout.
+        return LiveEarningsLayout.expandedHomeTopInset
     }
 
     /// Whether the global sneak peek is visible on this specific screen.
@@ -1032,6 +1073,10 @@ struct ContentView: View {
                       } else if vm.notchState == .closed && capsLockManager.isCapsLockActive && Defaults[.enableCapsLockIndicator] && !vm.hideOnClosed && !lockScreenManager.isLocked {
                           InlineHUD(type: .constant(.capsLock), value: .constant(1.0), icon: .constant(""), hoverAnimation: $isHovering, gestureProgress: $gestureProgress)
                               .transition(AnyTransition.move(edge: .trailing).combined(with: .opacity))
+                      } else if (!isCurrentScreenExpansionVisible || currentScreenExpansionType == .privacy) && vm.notchState == .closed && privacyManager.hasAnyIndicator && (Defaults[.enableCameraDetection] || Defaults[.enableMicrophoneDetection]) && !vm.hideOnClosed {
+                        PrivacyLiveActivity()
+                      } else if vm.notchState == .closed && atollRecordingInfo != nil && !vm.hideOnClosed && !lockScreenManager.isLocked {
+                        AtollRecordingStandaloneActivity()
                       } else if canShowMusicDuringExpansion && musicPairingEligible {
                           MusicLiveActivity(secondary: musicSecondary)
                               .id("closed-music-live-activity")
@@ -1050,8 +1095,8 @@ struct ContentView: View {
                               .transition(.blurReplace.animation(.interactiveSpring(dampingFraction: 1.2)))
                       } else if (!isCurrentScreenExpansionVisible || currentScreenExpansionType == .doNotDisturb) && vm.notchState == .closed && Defaults[.enableDoNotDisturbDetection] && Defaults[.showDoNotDisturbIndicator] && (doNotDisturbManager.isDoNotDisturbActive || doNotDisturbManager.isFocusToastDismissing) && !vm.hideOnClosed && !lockScreenManager.isLocked {
                           DoNotDisturbLiveActivity()
-                    } else if (!isCurrentScreenExpansionVisible || currentScreenExpansionType == .privacy) && vm.notchState == .closed && privacyManager.hasAnyIndicator && (Defaults[.enableCameraDetection] || Defaults[.enableMicrophoneDetection]) && !vm.hideOnClosed {
-                        PrivacyLiveActivity()
+                      } else if !isCurrentScreenExpansionVisible && vm.notchState == .closed && !isNonNotchScreen && liveEarningsController.shouldShowClosedAmount && !vm.hideOnClosed {
+                        LiveEarningsStandaloneActivity()
                       } else if let extensionPayload = extensionStandalonePayload {
                           let layout = extensionStandaloneLayout(
                               for: extensionPayload,
@@ -1071,6 +1116,7 @@ struct ContentView: View {
                       } else if vm.notchState == .open {
                           DynamicIslandHeader()
                               .frame(height: (Defaults[.enableMinimalisticUI] && isDynamicIslandMode) ? nil : max(24, vm.effectiveClosedNotchHeight))
+                              .padding(.top, liveEarningsExpandedHomeTopInset)
                        } else {
                            Rectangle().fill(.clear).frame(width: vm.closedNotchSize.width - 20, height: vm.effectiveClosedNotchHeight)
                        }
@@ -1173,6 +1219,8 @@ struct ContentView: View {
                           switch coordinator.currentView {
                               case .home:
                                   NotchHomeView(albumArtNamespace: albumArtNamespace)
+                              case .calendar:
+                                  NotchWorkCalendarView()
                               case .shelf:
                                   NotchShelfView()
                               case .timer:
@@ -1205,7 +1253,7 @@ struct ContentView: View {
               .allowsHitTesting(vm.notchState == .open)
               .blur(radius: abs(gestureProgress) > 0.3 ? min(abs(gestureProgress), 8) : 0)
               .opacity(abs(gestureProgress) > 0.3 ? min(abs(gestureProgress * 2), 0.8) : 1)
-              .animation(.smooth(duration: 0.3), value: coordinator.currentView)
+              .animation(.smooth(duration: 0.32), value: coordinator.currentView)
           }
       }
 
@@ -1280,7 +1328,16 @@ struct ContentView: View {
         let closedHeight = vm.effectiveClosedNotchHeight
         let outerHeight = closedHeight + (isHovering ? 8 : 0)
         let notchContentHeight = isHovering ? max(0, closedHeight) : max(0, closedHeight - 12)
-        let wingBaseWidth = max(0, notchContentHeight + gestureProgress / 2)
+        let showsEarningsRightWing = secondary == nil
+            && !isNonNotchScreen
+            && liveEarningsController.shouldShowClosedAmount
+        let defaultWingBaseWidth = max(0, notchContentHeight + gestureProgress / 2)
+        // An earnings wing must be mirrored on the leading side. Otherwise
+        // SwiftUI centers the unequal total width and shifts the amount back
+        // underneath the physical camera housing.
+        let wingBaseWidth = showsEarningsRightWing
+            ? max(defaultWingBaseWidth, LiveEarningsLayout.closedWingWidth)
+            : defaultWingBaseWidth
         let artworkHeight = max(0, closedHeight - 12)
         let artworkSize = min(artworkHeight, wingBaseWidth)
         let rawCenterBaseWidth = vm.closedNotchSize.width + (isHovering ? 8 : 0)
@@ -1381,7 +1438,11 @@ struct ContentView: View {
                 )
 
             musicRightWing(for: secondary, notchHeight: notchContentHeight, trailingWidth: rightWingWidth)
-                .frame(width: rightWingWidth, height: notchContentHeight, alignment: .center)
+                .frame(
+                    width: rightWingWidth,
+                    height: notchContentHeight,
+                    alignment: showsEarningsRightWing ? .trailing : .center
+                )
                 .contentShape(Rectangle())
                 .onHover { hovering in
                     guard shouldShowClosedMusicWaveformPlayPauseOverlay(for: secondary) else {
@@ -1437,6 +1498,9 @@ struct ContentView: View {
     }
 
     private func resolvedRightWingWidth(for secondary: MusicSecondaryLiveActivity?, baseWidth: CGFloat, centerBaseWidth: CGFloat, notchHeight: CGFloat) -> CGFloat {
+        if secondary == nil, !isNonNotchScreen, liveEarningsController.shouldShowClosedAmount {
+            return max(baseWidth, LiveEarningsLayout.closedWingWidth)
+        }
         guard let secondary else { return baseWidth }
 
         switch secondary {
@@ -1589,7 +1653,10 @@ struct ContentView: View {
 
     @ViewBuilder
     private func musicRightWing(for secondary: MusicSecondaryLiveActivity?, notchHeight: CGFloat, trailingWidth: CGFloat) -> some View {
-        switch secondary {
+        if secondary == nil, !isNonNotchScreen, liveEarningsController.shouldShowClosedAmount {
+            LiveEarningsClosedAmountView()
+        } else {
+            switch secondary {
         case .timer:
             MusicTimerSupplementView(
                 timerManager: timerManager,
@@ -1632,7 +1699,58 @@ struct ContentView: View {
                 forceSpectrum: false,
                 enableClosedPlayPauseOverlay: shouldShowClosedMusicWaveformPlayPauseOverlay(for: secondary)
             )
+            }
         }
+    }
+
+    @ViewBuilder
+    private func LiveEarningsStandaloneActivity() -> some View {
+        let closedHeight = vm.effectiveClosedNotchHeight
+        let contentHeight = isHovering ? max(0, closedHeight) : max(0, closedHeight - 12)
+        let centerWidth = max(vm.closedNotchSize.width + (isHovering ? 8 : 0), 96)
+
+        HStack(spacing: 0) {
+            Color.clear
+                .frame(width: LiveEarningsLayout.closedWingWidth, height: contentHeight)
+            Rectangle()
+                .fill(.black)
+                .frame(width: centerWidth, height: contentHeight)
+            LiveEarningsClosedAmountView()
+                .frame(width: LiveEarningsLayout.closedWingWidth, height: contentHeight)
+        }
+        .frame(height: closedHeight + (isHovering ? 8 : 0), alignment: .center)
+        .transition(closedLiveActivitySwapTransition)
+    }
+
+    private var atollRecordingInfo: ActiveRecordingInfo? {
+        if case let .recording(info) = atollRecordingCoordinator.state { return info }
+        return nil
+    }
+
+    @ViewBuilder
+    private func AtollRecordingStandaloneActivity() -> some View {
+        let closedHeight = vm.effectiveClosedNotchHeight
+        let contentHeight = isHovering ? max(0, closedHeight) : max(0, closedHeight - 12)
+        let centerWidth = max(vm.closedNotchSize.width + (isHovering ? 8 : 0), 96)
+        let elapsed = atollRecordingInfo?.elapsed ?? 0
+
+        HStack(spacing: 0) {
+            RecordingClosedStatusView(elapsed: elapsed)
+                .frame(width: LiveEarningsLayout.closedWingWidth, height: contentHeight)
+            Rectangle()
+                .fill(.black)
+                .frame(width: centerWidth, height: contentHeight)
+            Group {
+                if liveEarningsController.shouldShowClosedAmount {
+                    LiveEarningsClosedAmountView()
+                } else {
+                    Color.clear
+                }
+            }
+            .frame(width: LiveEarningsLayout.closedWingWidth, height: contentHeight)
+        }
+        .frame(height: closedHeight + (isHovering ? 8 : 0), alignment: .center)
+        .transition(closedLiveActivitySwapTransition)
     }
 
     @ViewBuilder
