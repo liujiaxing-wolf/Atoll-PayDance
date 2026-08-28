@@ -33,4 +33,13 @@ extension KeyboardShortcuts.Name {
     static let toggleNotchOpen = Self("toggleNotchOpen", default: .init(.i, modifiers: [.command, .shift]))
     static let toggleTerminalTab = Self("toggleTerminalTab", default: .init(.backtick, modifiers: [.control]))
     static let startDemoTimer = Self("startDemoTimer", default: .init(.t, modifiers: [.command, .shift]))
+    // Phase-two capture actions intentionally have no defaults, avoiding
+    // collisions with macOS and the user's existing global shortcuts.
+    static let captureAreaScreenshot = Self("captureAreaScreenshot")
+    static let captureWindowScreenshot = Self("captureWindowScreenshot")
+    static let captureFullScreenshot = Self("captureFullScreenshot")
+    static let startAreaRecording = Self("startAreaRecording")
+    static let startFullRecording = Self("startFullRecording")
+    static let toggleAtollRecording = Self("toggleAtollRecording")
+    static let stopAtollRecording = Self("stopAtollRecording")
 }
