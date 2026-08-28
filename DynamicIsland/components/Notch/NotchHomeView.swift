@@ -347,7 +347,6 @@ struct MusicControlsView: View {
     @Default(.showMediaOutputControl) private var showMediaOutputControl
     @Default(.musicSkipBehavior) private var musicSkipBehavior
     @Default(.enableLyrics) private var enableLyrics
-    @Default(.showCalendar) private var showCalendar
     private let seekInterval: TimeInterval = 10
 
     var body: some View {
@@ -397,47 +396,6 @@ struct MusicControlsView: View {
                 frameWidth: width
             )
             .fontWeight(.medium)
-            if enableLyrics && showCalendar {
-                let transition = AnyTransition.asymmetric(
-                    insertion: .move(edge: .bottom).combined(with: .opacity),
-                    removal: .move(edge: .top).combined(with: .opacity)
-                )
-
-                let line = musicManager.currentLyrics.trimmingCharacters(in: .whitespacesAndNewlines)
-                let isInstrumentalBreak = musicManager.isInInstrumentalBreak
-
-                if isInstrumentalBreak {
-                    // The track is between verses, so mark it the way the side
-                    // panel does instead of leaving a hole in the layout. Driven
-                    // by the break itself rather than by the line being blank:
-                    // during an intro there is no current line to blank out, so
-                    // testing the text would miss it.
-                    InstrumentalBreakNotes(fontSize: 10, weight: .regular)
-                        .foregroundStyle(.white.opacity(0.7))
-                    .padding(.top, 2)
-                    .transition(transition)
-                }
-
-                if !isInstrumentalBreak, !line.isEmpty {
-                    let lyricsBinding = Binding<String>(
-                        get: { musicManager.currentLyrics },
-                        set: { _ in }
-                    )
-
-                    MarqueeText(
-                        lyricsBinding,
-                        font: .system(size: 12, weight: .regular),
-                        nsFont: .headline,
-                        textColor: .white.opacity(0.7),
-                        minDuration: 0.35,
-                        frameWidth: width
-                    )
-                    .padding(.top, 2)
-                    .id(line)
-                    .transition(transition)
-                    .animation(.easeInOut(duration: 0.32), value: line)
-                }
-            }
         }
     }
 
@@ -788,9 +746,9 @@ struct NotchHomeView: View {
     @ObservedObject var coordinator = DynamicIslandViewCoordinator.shared
     @ObservedObject private var extensionNotchExperienceManager = ExtensionNotchExperienceManager.shared
     @ObservedObject private var musicManager = MusicManager.shared
+    @ObservedObject private var liveEarningsController = LiveEarningsController.shared
     @Default(.showStandardMediaControls) private var showStandardMediaControls
     @Default(.autoHideInactiveNotchMediaPlayer) private var autoHideInactiveNotchMediaPlayer
-    @Default(.showCalendar) private var showCalendar
     @Default(.enableLyrics) private var enableLyrics
     @Default(.lyricsPanelWidth) private var lyricsPanelWidth
     @Default(.lyricsPanelOffset) private var lyricsPanelOffset
@@ -802,7 +760,7 @@ struct NotchHomeView: View {
     }
 
     private var shouldShowSideLyrics: Bool {
-        shouldShowMusicPlayer && enableLyrics && !showCalendar
+        shouldShowMusicPlayer && enableLyrics
     }
     
     var body: some View {
@@ -815,43 +773,42 @@ struct NotchHomeView: View {
     }
 
     private var mainContent: some View {
-        Group {
-            if Defaults[.enableMinimalisticUI] {
-                if let overridePayload = minimalisticOverridePayload {
-                    ExtensionMinimalisticExperienceView(
-                        payload: overridePayload,
-                        albumArtNamespace: albumArtNamespace
-                    )
+        VStack(spacing: 8) {
+            if hasPhysicalNotchOnCurrentScreen && liveEarningsController.shouldShowHomeCard {
+                LiveEarningsHomeCard()
+                    .frame(maxWidth: .infinity)
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+
+            if hasPhysicalNotchOnCurrentScreen {
+                CaptureQuickActionsView()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 92)
+            }
+
+            Group {
+                if Defaults[.enableMinimalisticUI] {
+                    if let overridePayload = minimalisticOverridePayload {
+                        ExtensionMinimalisticExperienceView(
+                            payload: overridePayload,
+                            albumArtNamespace: albumArtNamespace
+                        )
+                    } else {
+                        MinimalisticMusicPlayerView(albumArtNamespace: albumArtNamespace)
+                    }
+                } else if shouldShowSideLyrics {
+                    sideLyricsContent
                 } else {
-                    MinimalisticMusicPlayerView(albumArtNamespace: albumArtNamespace)
-                }
-            } else if shouldShowSideLyrics {
-                sideLyricsContent
-            } else {
-                HStack(alignment: .top, spacing: SideLyricsLayout.hStackSpacing) {
-                    // Normal mode: Show full music player with optional calendar and webcam
-                    if shouldShowMusicPlayer {
-                        MusicPlayerView(albumArtNamespace: albumArtNamespace)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-
-                    if showCalendar {
-                        Group {
-                            if shouldShowMusicPlayer {
-                                CalendarView()
-                            } else {
-                                StandaloneCalendarView()
-                            }
+                    HStack(alignment: .top, spacing: SideLyricsLayout.hStackSpacing) {
+                        // Normal mode: Show full music player with optional calendar and webcam
+                        if shouldShowMusicPlayer {
+                            MusicPlayerView(albumArtNamespace: albumArtNamespace)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .onHover { isHovering in
-                            vm.isHoveringCalendar = isHovering
-                        }
-                        .environmentObject(vm)
-                    }
 
-                    if mirrorIsVisible {
-                        cameraPreview
+                        if mirrorIsVisible {
+                            cameraPreview
+                        }
                     }
                 }
             }
@@ -883,6 +840,11 @@ struct NotchHomeView: View {
 
     private var mirrorIsVisible: Bool {
         Defaults[.showMirror] && webcamManager.cameraAvailable && vm.notchState == .open
+    }
+
+    private var hasPhysicalNotchOnCurrentScreen: Bool {
+        let screenName = vm.screen ?? coordinator.selectedScreen
+        return (NSScreen.screens.first(where: { $0.localizedName == screenName })?.safeAreaInsets.top ?? 0) > 0
     }
 
     private var cameraPreview: some View {
