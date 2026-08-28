@@ -47,6 +47,8 @@ private enum SettingsTabGroup: String, CaseIterable, Identifiable {
 
 private enum SettingsTab: String, CaseIterable, Identifiable {
     case general
+    case liveEarnings
+    case capture
     case liveActivities
     case appearance
     case lockScreen
@@ -73,11 +75,11 @@ private enum SettingsTab: String, CaseIterable, Identifiable {
     /// Which sidebar group this tab belongs to.
     var group: SettingsTabGroup {
         switch self {
-        case .general, .appearance:                                          return .core
+        case .general, .liveEarnings, .appearance:                           return .core
         case .media, .liveActivities, .lockScreen, .devices:                 return .mediaAndDisplay
         case .hudAndOSD, .battery:                                           return .system
         case .timer, .calendar, .notes:                                      return .productivity
-        case .clipboard, .screenAssistant, .colorPicker, .shelf,
+        case .capture, .clipboard, .screenAssistant, .colorPicker, .shelf,
              .downloads, .shortcuts:                                         return .utilities
         case .stats, .terminal:                                              return .developer
         case .extensions:                                                    return .integrations
@@ -88,6 +90,8 @@ private enum SettingsTab: String, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .general: return String(localized: "General")
+        case .liveEarnings: return LiveEarningsL10n.liveEarnings
+        case .capture: return String(localized: "Screenshot & Recording")
         case .liveActivities: return String(localized: "Live Activities")
         case .appearance: return String(localized: "Appearance")
         case .lockScreen: return String(localized: "Lock Screen")
@@ -114,6 +118,8 @@ private enum SettingsTab: String, CaseIterable, Identifiable {
     var systemImage: String {
         switch self {
         case .general: return "gear"
+        case .liveEarnings: return "chart.line.uptrend.xyaxis"
+        case .capture: return "record.circle"
         case .liveActivities: return "waveform.path.ecg"
         case .appearance: return "paintpalette"
         case .lockScreen: return "lock.laptopcomputer"
@@ -140,6 +146,8 @@ private enum SettingsTab: String, CaseIterable, Identifiable {
     var tint: Color {
         switch self {
         case .general: return .blue
+        case .liveEarnings: return .green
+        case .capture: return .red
         case .liveActivities: return .pink
         case .appearance: return .purple
         case .lockScreen: return .orange
@@ -358,6 +366,16 @@ struct SettingsView: View {
                 selectedTab = firstMatch
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .atollOpenCaptureShortcutSettings)) { _ in
+            let entry = SettingsSearchEntry(
+                tab: .capture,
+                title: "Keyboard shortcuts",
+                keywords: ["screenshot", "recording", "shortcut"],
+                highlightID: SettingsNavigationTarget.captureShortcutsHighlightID
+            )
+            selectedTab = .capture
+            highlightCoordinator.focus(on: entry)
+        }
         .background {
             Group {
                 if #available(macOS 26.0, *) {
@@ -484,6 +502,7 @@ struct SettingsView: View {
         let ordered: [SettingsTab] = [
             // Core
             .general,
+            .liveEarnings,
             .appearance,
             // Media & Display
             .media,
@@ -695,6 +714,11 @@ struct SettingsView: View {
 
     private var settingsSearchIndex: [SettingsSearchEntry] {
         [
+            // Live Earnings
+            SettingsSearchEntry(tab: .liveEarnings, title: "Live Earnings", keywords: ["salary", "pay", "income", "earnings", "薪资", "工资", "收益"], highlightID: nil),
+            SettingsSearchEntry(tab: .liveEarnings, title: "Work schedule", keywords: ["workdays", "hours", "lunch", "工作日", "上班", "下班", "午休"], highlightID: nil),
+            SettingsSearchEntry(tab: .liveEarnings, title: "Privacy mode", keywords: ["hide salary", "privacy", "隐私", "隐藏薪资"], highlightID: nil),
+
             // General
             SettingsSearchEntry(tab: .general, title: "Enable Minimalistic UI", keywords: ["minimalistic", "ui mode", "general"], highlightID: SettingsTab.general.highlightID(for: "Enable Minimalistic UI")),
             SettingsSearchEntry(tab: .general, title: "Menubar icon", keywords: ["menu bar", "status bar", "icon"], highlightID: SettingsTab.general.highlightID(for: "Menubar icon")),
@@ -796,7 +820,7 @@ struct SettingsView: View {
             SettingsSearchEntry(tab: .media, title: "Enable album art parallax effect", keywords: ["parallax", "parallax effect", "album art"], highlightID: SettingsTab.media.highlightID(for: "Enable album art parallax effect")),
 
             // Calendar
-            SettingsSearchEntry(tab: .calendar, title: "Show calendar", keywords: ["calendar", "events"], highlightID: SettingsTab.calendar.highlightID(for: "Show calendar")),
+            SettingsSearchEntry(tab: .calendar, title: "Show work calendar tab", keywords: ["calendar", "events", "workday"], highlightID: SettingsTab.calendar.highlightID(for: "Show work calendar tab")),
             SettingsSearchEntry(tab: .calendar, title: "Enable reminder live activity", keywords: ["reminder", "live activity"], highlightID: SettingsTab.calendar.highlightID(for: "Enable reminder live activity")),
             SettingsSearchEntry(tab: .calendar, title: "Countdown style", keywords: ["reminder countdown"], highlightID: SettingsTab.calendar.highlightID(for: "Countdown style")),
             SettingsSearchEntry(tab: .calendar, title: "Show lock screen reminder", keywords: ["lock screen", "reminder widget"], highlightID: SettingsTab.calendar.highlightID(for: "Show lock screen reminder")),
@@ -959,6 +983,14 @@ struct SettingsView: View {
         case .general:
             SettingsForm(tab: .general) {
                 GeneralSettings()
+            }
+        case .liveEarnings:
+            SettingsForm(tab: .liveEarnings) {
+                LiveEarningsSettingsView()
+            }
+        case .capture:
+            SettingsForm(tab: .capture) {
+                CaptureSettingsView()
             }
         case .liveActivities:
             SettingsForm(tab: .liveActivities) {
@@ -3020,7 +3052,6 @@ struct Media: View {
     @Default(.lockScreenMusicFullscreenArtworkEnabled) private var lockScreenMusicFullscreenArtworkEnabled
     @Default(.showStandardMediaControls) private var showStandardMediaControls
     @Default(.autoHideInactiveNotchMediaPlayer) private var autoHideInactiveNotchMediaPlayer
-    @Default(.showCalendar) private var showCalendar
     @Default(.enableLyrics) private var enableLyrics
     @Default(.lyricHighlightStyle) private var lyricHighlightStyle
     @Default(.lyricsPanelWidth) private var lyricsPanelWidth
@@ -3225,11 +3256,7 @@ struct Media: View {
                     .settingsHighlight(id: highlightID("Lyric highlight"))
                 }
 
-                Text(
-                    showCalendar
-                        ? "Lyrics sit on one line under the artist name, since the calendar is using the rest of the notch. Turn the calendar off to give them a full panel beside the player."
-                        : "Lyrics get their own panel beside the player. Turn the calendar on to move them under the artist name instead."
-                )
+                Text("Lyrics use their own panel beside the player.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
@@ -3243,7 +3270,7 @@ struct Media: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
-                if enableLyrics && !enableMinimalisticUI && !showCalendar && showStandardMediaControls {
+                if enableLyrics && !enableMinimalisticUI && showStandardMediaControls {
                     Slider(value: $lyricsPanelWidth, in: 180...420, step: 10) {
                         HStack {
                             Text("Side lyrics width")
@@ -3554,15 +3581,9 @@ struct CalendarSettings: View {
                 }
 
                 Defaults.Toggle(key: .showCalendar) {
-                    Text("Show calendar")
+                    Text("Show work calendar tab")
                 }
-                .settingsHighlight(id: highlightID("Show calendar"))
-                if enableLyrics {
-                    Text("Lyrics are on too, so the two share the notch and lyrics drop to a single line under the artist name.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
+                .settingsHighlight(id: highlightID("Show work calendar tab"))
 
                 Section(header: Text("Event List")) {
                     Toggle("Hide completed reminders", isOn: $hideCompletedReminders)
