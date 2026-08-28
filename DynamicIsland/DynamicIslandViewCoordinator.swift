@@ -105,10 +105,13 @@ class DynamicIslandViewCoordinator: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private var hoverOpenSuppressedUntil: Date = .distantPast
     
-    private static let tabOrder: [NotchViews] = [.home, .shelf, .timer, .stats, .llmUsage, .colorPicker, .notes, .clipboard, .terminal, .extensionExperience]
+    private static let tabOrder: [NotchViews] = [.home, .calendar, .shelf, .timer, .stats, .llmUsage, .colorPicker, .notes, .clipboard, .terminal, .extensionExperience]
     
     /// Direction of the most recent tab switch (true = forward/right, false = backward/left)
-    @Published var tabSwitchForward: Bool = true
+    // `currentView` already publishes the tab switch. Publishing the derived
+    // direction again from inside `currentView.didSet` creates a nested SwiftUI
+    // update and can tear down the notch while a tab button is being handled.
+    var tabSwitchForward: Bool = true
     
     @Published var currentView: NotchViews = .home {
         didSet {
