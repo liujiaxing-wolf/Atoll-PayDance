@@ -1,5 +1,15 @@
 Atoll (DynamicIsland) - NOTICE
 
+Atoll × 薪跳 modifications
+
+This repository contains a modified version of Atoll that integrates
+live earnings, work-calendar, task/event, capture, recording, and
+configurable-shortcut features. These modifications were developed for
+the Atoll × 薪跳 project and are distributed under GNU GPL v3.0.
+
+Original Atoll source and project history:
+https://github.com/Ebullioscopic/Atoll
+
 This product includes software derived from the boring.notch project,
 modified and adapted for Atoll (DynamicIsland). The boring.notch project
 is licensed under the GNU General Public License v3.0.
