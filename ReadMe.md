@@ -1,7 +1,8 @@
 <p align="center">
   <img src=".github/assets/atoll-logo.png" alt="Atoll logo" width="120">
 </p>
-<h1 align="center">Atoll - DynamicIsland for macOS</h1>
+<h1 align="center">Atoll × 薪跳</h1>
+<p align="center">面向 macOS 刘海屏的效率中心与实时收益工具</p>
 <p align="center">
 <a href="https://trendshift.io/repositories/15291" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15291" alt="Ebullioscopic%2FAtoll | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 </p>
@@ -36,7 +37,27 @@
   <a href="https://discord.gg/PaqFkRTDF8">Join our Discord community</a>
 </p>
 
-Atoll turns the MacBook notch into a focused command surface for media, system insight, and quick utilities. It stays out of the way until needed, then expands with responsive, native SwiftUI animations.
+本项目把“薪跳”的实时收益能力完整嵌入 Atoll：刘海静默时显示持续增长的收益数字，悬停展开后仍保留 Atoll 原有能力，并提供收益看板、工作日历、日程与待办、截图录屏和快捷键配置。
+
+这是面向 **macOS 刘海屏设备** 的融合版本，不是原先的 Windows 薪跳桌面版。所有薪资、工作日和偏好设置默认保存在本机。
+
+> 本项目基于 [Ebullioscopic/Atoll](https://github.com/Ebullioscopic/Atoll) 修改开发，继续遵循 GNU GPL v3。原项目作者、历史记录、许可证和第三方致谢均予以保留。
+
+## 融合版核心能力
+
+- 刘海静默状态显示自适应字号的实时收益数字，可配置显示颜色。
+- Home 页实时收益、当日进度与历史收益记录。
+- 工作日历，支持工作日、休息日、请假、临时工作日和自定义时间。
+- 为任意日期创建、查看、修改和删除日程及待办事项。
+- 区域、窗口、全屏截图，以及区域和全屏录制。
+- 截图与录屏快捷键可由用户自行配置。
+- 保留 Atoll 的媒体、系统状态、计时器、剪贴板、终端等原有功能。
+
+## 项目文档
+
+- [融合项目 PRD](docs/Atoll_PRD_zh-CN.md)
+- [第一阶段验收清单](docs/%E4%B8%80%E6%9C%9F%E9%AA%8C%E6%94%B6%E6%B8%85%E5%8D%95.md)
+- [第二阶段验收清单](docs/%E4%BA%8C%E6%9C%9F%E9%AA%8C%E6%94%B6%E6%B8%85%E5%8D%95.md)
 
 <p align="center">
   <img src="https://i.postimg.cc/t49mW5yN/Screenshot-2026-03-02-at-6-00-22-PM.png" alt="Atoll lock screen" width="920">
@@ -64,15 +85,16 @@ Atoll turns the MacBook notch into a focused command surface for media, system i
 </p>
 
 ## Requirements
-- macOS 14.0 or later (optimised for macOS 15+).
+- macOS 14.6 or later (optimised for macOS 15+).
 - MacBook with a notch (14/16‑inch MBP across Apple silicon generations).
 - Xcode 15+ to build from source.
 - Permissions as needed: Accessibility, Camera, Calendar, Screen Recording, Music.
 
-## Installation
-1) Download the latest DMG [here](https://github.com/Ebullioscopic/Atoll/releases/latest).
-2) Open the DMG and drag Atoll into Applications.
-3) Launch Atoll and grant the requested permissions.
+## Build and Run
+1) Clone this repository and select the `Atoll-PayDance` branch.
+2) Open `DynamicIsland.xcodeproj` with Xcode 15 or later.
+3) Select the `DynamicIsland` scheme, configure local signing, then build and run.
+4) Grant Accessibility, Calendar, Screen Recording, Microphone and other permissions only when the corresponding feature is used.
 
 ## Quick Start
 - Hover near the notch to expand; click to enter controls.
