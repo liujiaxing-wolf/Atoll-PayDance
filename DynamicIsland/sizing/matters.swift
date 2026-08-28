@@ -44,7 +44,6 @@ enum SideLyricsLayout {
 
 func sideLyricsRequiredNotchWidth() -> CGFloat {
     guard Defaults[.enableLyrics],
-          !Defaults[.showCalendar],
           !Defaults[.enableMinimalisticUI],
           Defaults[.showStandardMediaControls],
           (!Defaults[.autoHideInactiveNotchMediaPlayer] || MusicManager.shared.hasActiveSession)
@@ -102,7 +101,12 @@ func enabledStandardTabCount() -> Int {
     var count = 0
 
     // Home tab
-    if Defaults[.showStandardMediaControls] || Defaults[.showCalendar] || Defaults[.showMirror] {
+    if Defaults[.showStandardMediaControls] || Defaults[.showMirror] {
+        count += 1
+    }
+
+    // Work calendar is a standalone tab rather than Home content.
+    if Defaults[.showCalendar] {
         count += 1
     }
 
@@ -265,24 +269,9 @@ func inlineLyricsAdjustedNotchSize(
     from baseSize: CGSize,
     isHomeTabActive: Bool
 ) -> CGSize {
-    // The same conditions `sideLyricsRequiredNotchWidth` tests, for the same
-    // reason: the extra line belongs to the standard player, so it is only
-    // owed when that player is on screen to draw it. Without the last two the
-    // notch grew for a line nobody could see whenever the player was switched
-    // off, or hidden by auto-hide with nothing playing.
-    guard isHomeTabActive,
-          !Defaults[.enableMinimalisticUI],
-          Defaults[.enableLyrics],
-          Defaults[.showCalendar],
-          Defaults[.showStandardMediaControls],
-          (!Defaults[.autoHideInactiveNotchMediaPlayer] || MusicManager.shared.hasActiveSession)
-    else {
-        return baseSize
-    }
-
-    var adjustedSize = baseSize
-    adjustedSize.height += inlineLyricsLineHeight
-    return adjustedSize
+    // Calendar now has its own tab, so Home never compresses lyrics into an
+    // inline row. Keep the old sizing hook as a no-op for existing callers.
+    baseSize
 }
 
 func statsAdjustedNotchSize(
