@@ -29,6 +29,11 @@ protocol CalendarServiceProviding {
     func calendars() async -> [CalendarModel]
     func events(from start: Date, to end: Date, calendars: [String]) async -> [EventModel]
     func setReminderCompleted(reminderID: String, completed: Bool) async
+    func createEvent(title: String, start: Date, end: Date, isAllDay: Bool) async throws -> String
+    func createReminder(title: String, due: Date) async throws -> String
+    func updateEvent(id: String, title: String, start: Date, end: Date, isAllDay: Bool) async throws
+    func updateReminder(id: String, title: String, due: Date) async throws
+    func deleteCalendarItem(id: String, isReminder: Bool) async throws
 }
 
 class CalendarService: CalendarServiceProviding {
@@ -64,7 +69,12 @@ class CalendarService: CalendarServiceProviding {
     
     private func hasAccess(to entityType: EKEntityType) -> Bool {
         let status = EKEventStore.authorizationStatus(for: entityType)
-        return status == .fullAccess
+        switch status {
+        case .authorized, .fullAccess:
+            return true
+        default:
+            return false
+        }
     }
     
     func calendars() async -> [CalendarModel] {
@@ -137,6 +147,113 @@ class CalendarService: CalendarServiceProviding {
             try store.save(reminder, commit: true)
         } catch {
             print("Failed to update reminder completion: \(error)")
+        }
+    }
+
+    @MainActor
+    func createEvent(title: String, start: Date, end: Date, isAllDay: Bool) async throws -> String {
+        guard hasAccess(to: .event) else { throw CalendarItemCreationError.eventsAccessRequired }
+        guard let calendar = store.defaultCalendarForNewEvents
+                ?? store.calendars(for: .event).first(where: \.allowsContentModifications) else {
+            throw CalendarItemCreationError.noWritableCalendar
+        }
+
+        let event = EKEvent(eventStore: store)
+        event.title = title
+        event.calendar = calendar
+        event.url = URL(string: "atoll://work-calendar/event")
+        event.isAllDay = isAllDay
+        if isAllDay {
+            event.startDate = Calendar.current.startOfDay(for: start)
+            event.endDate = Calendar.current.date(byAdding: .day, value: 1, to: event.startDate) ?? end
+        } else {
+            event.startDate = start
+            event.endDate = max(end, start.addingTimeInterval(60))
+        }
+        try store.save(event, span: .thisEvent, commit: true)
+        return event.calendarItemIdentifier
+    }
+
+    @MainActor
+    func createReminder(title: String, due: Date) async throws -> String {
+        guard hasAccess(to: .reminder) else { throw CalendarItemCreationError.remindersAccessRequired }
+        guard let calendar = store.defaultCalendarForNewReminders()
+                ?? store.calendars(for: .reminder).first(where: \.allowsContentModifications) else {
+            throw CalendarItemCreationError.noWritableReminderList
+        }
+
+        let reminder = EKReminder(eventStore: store)
+        reminder.title = title
+        reminder.calendar = calendar
+        reminder.url = URL(string: "atoll://work-calendar/todo")
+        reminder.dueDateComponents = Calendar.current.dateComponents(
+            [.calendar, .timeZone, .year, .month, .day, .hour, .minute],
+            from: due
+        )
+        try store.save(reminder, commit: true)
+        return reminder.calendarItemIdentifier
+    }
+
+    @MainActor
+    func updateEvent(id: String, title: String, start: Date, end: Date, isAllDay: Bool) async throws {
+        guard let event = store.calendarItem(withIdentifier: id) as? EKEvent else {
+            throw CalendarItemCreationError.itemNotFound
+        }
+        event.title = title
+        event.isAllDay = isAllDay
+        if isAllDay {
+            event.startDate = Calendar.current.startOfDay(for: start)
+            event.endDate = Calendar.current.date(byAdding: .day, value: 1, to: event.startDate) ?? end
+        } else {
+            event.startDate = start
+            event.endDate = max(end, start.addingTimeInterval(60))
+        }
+        try store.save(event, span: .thisEvent, commit: true)
+    }
+
+    @MainActor
+    func updateReminder(id: String, title: String, due: Date) async throws {
+        guard let reminder = store.calendarItem(withIdentifier: id) as? EKReminder else {
+            throw CalendarItemCreationError.itemNotFound
+        }
+        reminder.title = title
+        reminder.dueDateComponents = Calendar.current.dateComponents(
+            [.calendar, .timeZone, .year, .month, .day, .hour, .minute],
+            from: due
+        )
+        try store.save(reminder, commit: true)
+    }
+
+    @MainActor
+    func deleteCalendarItem(id: String, isReminder: Bool) async throws {
+        if isReminder {
+            guard let reminder = store.calendarItem(withIdentifier: id) as? EKReminder else {
+                throw CalendarItemCreationError.itemNotFound
+            }
+            try store.remove(reminder, commit: true)
+        } else {
+            guard let event = store.calendarItem(withIdentifier: id) as? EKEvent else {
+                throw CalendarItemCreationError.itemNotFound
+            }
+            try store.remove(event, span: .thisEvent, commit: true)
+        }
+    }
+}
+
+enum CalendarItemCreationError: LocalizedError {
+    case eventsAccessRequired
+    case remindersAccessRequired
+    case noWritableCalendar
+    case noWritableReminderList
+    case itemNotFound
+
+    var errorDescription: String? {
+        switch self {
+        case .eventsAccessRequired: String(localized: "Calendar access is required to create events.")
+        case .remindersAccessRequired: String(localized: "Reminders access is required to create to-dos.")
+        case .noWritableCalendar: String(localized: "No writable calendar is available.")
+        case .noWritableReminderList: String(localized: "No writable reminder list is available.")
+        case .itemNotFound: String(localized: "The calendar item no longer exists.")
         }
     }
 }
