@@ -125,6 +125,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var cancellables = Set<AnyCancellable>()
     private var windowsHiddenForLock = false
     private var optionalShortcutHandlersRegistered = false
+    private var isWaitingForRecordingTermination = false
     private weak var focusWithoutDevToolsMenuItem: NSMenuItem?
     private weak var focusUseDevToolsMenuItem: NSMenuItem?
     
@@ -159,6 +160,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return false
+    }
+
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        let recorder = AtollRecordingCoordinator.shared
+        guard recorder.isBusy else { return .terminateNow }
+        guard !isWaitingForRecordingTermination else { return .terminateLater }
+        isWaitingForRecordingTermination = true
+        if case .preparing = recorder.state {
+            recorder.cancelPreparation()
+            isWaitingForRecordingTermination = false
+            return .terminateNow
+        }
+        Task { @MainActor [weak self, weak sender] in
+            await withTaskGroup(of: Void.self) { group in
+                group.addTask { await recorder.stop(reason: .applicationTermination) }
+                group.addTask { try? await Task.sleep(for: .seconds(8)) }
+                _ = await group.next()
+                group.cancelAll()
+            }
+            self?.isWaitingForRecordingTermination = false
+            sender?.reply(toApplicationShouldTerminate: true)
+        }
+        return .terminateLater
     }
 
     func applicationDidBecomeActive(_ notification: Notification) {
@@ -1456,6 +1480,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
+
+        KeyboardShortcuts.onKeyDown(for: .captureAreaScreenshot) {
+            CaptureShortcutCoordinator.shared.handle(.areaScreenshot)
+        }
+        KeyboardShortcuts.onKeyDown(for: .captureWindowScreenshot) {
+            CaptureShortcutCoordinator.shared.handle(.windowScreenshot)
+        }
+        KeyboardShortcuts.onKeyDown(for: .captureFullScreenshot) {
+            CaptureShortcutCoordinator.shared.handle(.fullScreenshot)
+        }
+        KeyboardShortcuts.onKeyDown(for: .startAreaRecording) {
+            CaptureShortcutCoordinator.shared.handle(.areaRecording)
+        }
+        KeyboardShortcuts.onKeyDown(for: .startFullRecording) {
+            CaptureShortcutCoordinator.shared.handle(.fullRecording)
+        }
+        KeyboardShortcuts.onKeyDown(for: .toggleAtollRecording) {
+            CaptureShortcutCoordinator.shared.handle(.toggleRecording)
+        }
+        KeyboardShortcuts.onKeyDown(for: .stopAtollRecording) {
+            CaptureShortcutCoordinator.shared.handle(.stopRecording)
+        }
     }
 
     @MainActor
@@ -1465,6 +1511,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updateShortcut(.colorPickerPanel, isEnabled: Defaults[.enableShortcuts] && Defaults[.enableColorPickerFeature])
         updateShortcut(.screenAssistantPanel, isEnabled: Defaults[.enableShortcuts] && Defaults[.enableScreenAssistant])
         updateShortcut(.toggleTerminalTab, isEnabled: Defaults[.enableShortcuts] && Defaults[.enableTerminalFeature])
+        updateShortcut(.captureAreaScreenshot, isEnabled: Defaults[.enableShortcuts])
+        updateShortcut(.captureWindowScreenshot, isEnabled: Defaults[.enableShortcuts])
+        updateShortcut(.captureFullScreenshot, isEnabled: Defaults[.enableShortcuts])
+        updateShortcut(.startAreaRecording, isEnabled: Defaults[.enableShortcuts])
+        updateShortcut(.startFullRecording, isEnabled: Defaults[.enableShortcuts])
+        updateShortcut(.toggleAtollRecording, isEnabled: Defaults[.enableShortcuts])
+        updateShortcut(.stopAtollRecording, isEnabled: Defaults[.enableShortcuts] && AtollRecordingCoordinator.shared.isRecording)
     }
 
     @MainActor
